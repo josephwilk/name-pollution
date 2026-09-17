@@ -1,0 +1,3684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap" rel="stylesheet">
+  <script src="/js/gsap.min.js"></script>
+  <script src="/js/d3.min.js"></script>
+  <script src="/js/scrollama.js"></script>
+  <script src="/js/gsap.min.js"></script>
+  <script src="/js/scrollama.js"></script>
+  <script src="/js/gsap.min.js"></script>
+
+  <style>
+    .two-column{
+      display:flex; gap: 30px; text-align: left; margin-top: 40px; margin-bottom: 40px;
+      justify-content: center;
+    }
+
+
+    figcaption {
+      line-height: 1em;
+      margin-bottom: 20px;
+    }
+
+    .date {
+      font-size: 0.8em;
+      font-variant: small-caps;
+      font-weight: 500;
+    }
+
+    video {
+      width: 100%;
+      object-fit: cover;
+    }
+
+    img.person-photo {
+      max-width: 100%;
+      max-height: 100%;
+      box-shadow: 5.96875px 6.00390625px 18px rgba(168, 167, 167, 0.78);
+      border: solid 1px rgba(0, 0, 0, 0.5);
+    }
+
+    .album-grid {
+      justify-content: flex-start;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-column-gap: 20px;
+      justify-items: center;
+      align-content: center;
+      left: auto;
+      right: auto;
+      margin: auto;
+      width: 100%;
+    }
+
+    .album-grid .album-cover figcaption {
+      margin-bottom: 25px;
+      line-height: 1em;
+    }
+
+    .album-grid .album-cover {
+      box-shadow: none;
+      width: 200px;
+    }
+
+    .album-grid .album-cover img {
+      width: 200px;
+      height: 200px;
+      box-shadow: rgba(16, 26, 64, 0) 0px 0px 1px, rgba(16, 26, 64, 0.1) -4px 1px 3px, rgba(16, 26, 64, 0.1) -11px 4px 6px, rgba(16, 26, 64, 0.1) -22px 8px 10px, rgba(16, 26, 64, 0.1) -37px 14px 15px, rgba(16, 26, 64, 0.1) -57px 21px 21px;
+      transform: perspective(700px) rotateX(7deg) rotateY(-1deg);
+    }
+
+
+    h4 {
+      font-weight: 400;
+    }
+
+    blockquote.quote {
+      margin: 20px auto;
+      font-style: italic;
+      color: #555555;
+      padding: 0.1em 0 0 80px;
+      border-left: 3px solid #000000;
+      line-height: 1.6;
+      position: relative;
+      background: #EDEDED;
+    }
+
+    .quote::before {
+      font-family: Arial;
+      content: "\201C";
+      color: #000000;
+      font-size: 4em;
+      position: absolute;
+      left: 10px;
+      top: -10px;
+    }
+
+    .quote::after {
+      content: '';
+    }
+
+    blockquote.quote span {
+      display: block;
+      color: #333333;
+      font-style: normal;
+      font-weight: bold;
+      margin-top: 1em;
+    }
+
+    .name-text {
+      font-weight: 200;
+    }
+
+    .contrast-header {
+      text-shadow: rgb(145, 255, 0) 2px 2px 1px;
+    }
+
+    figcaption {
+      font-size: 1.0rem;
+      font-weight: 300;
+      text-align: center;
+    }
+
+    .ai-slop-name {
+      font-size: 1.0em;
+      font-weight: 500;
+    }
+
+    .freq {
+      font-size: 0.8em;
+      font-weight: 100;
+    }
+
+    .rowan-faces img {
+   /*   width: 200px;*/
+      border: 1px solid black;
+    }
+
+    .album-cover {
+      max-width: 100%;
+      max-height: 100%;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .quotes blockquote {
+      border-left: 3px solid rgba(0, 0, 0, 0.84);
+      padding-left: 20px;
+      /*margin-left: -23px;*/
+      padding-bottom: 2px;
+      letter-spacing: 0.01rem;
+      font-size: 1.1em;
+      font-style: italic;
+      line-height: 1.58;
+    }
+
+    .chart {
+      text-align: left;
+      width: 60%;
+    }
+
+    .chart-details {
+      gap: 5px;
+      display: flex;
+      border: 4px solid #b0ff00;
+      padding-left: 20px;
+      padding-right: 20px;
+      border-radius: 3px;
+      background-color: rgba(187, 255, 119, 1);
+
+      font-weight: 300;
+      text-align: left;
+    }
+
+    @media(max-width: 950px){
+    .chart-details{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    }
+
+
+    .chart-summary {
+      border: 4px solid #b0ff00;
+      ;
+      background-color: rgba(187, 255, 119, 1);
+      padding-left: 15px;
+      padding-right: 15px;
+      margin-bottom: 20px;
+    }
+
+    .chart-summary .views {
+      font-size: 1.5em;
+      font-weight: 900;
+    }
+
+    .chart-summary .ai-slop-name {
+      font-size: 1.5em;
+    }
+
+    .chart-details h2 {
+      font-weight: 400;
+    }
+
+    /* @media only screen and (max-width: 77.4375rem) {
+      .scroll-smooth-effects__flair--flower {
+        top: 20%
+      }
+    } */
+
+    .scroll-smooth-effects__circle {
+      --fy: 1;
+      position: absolute
+    }
+
+    /* @media only screen and (max-width:77.4375rem) {
+      .scroll-smooth-effects__circle {
+        display: none
+      }
+    } */
+
+    .scroll-smooth-effects__circle-inner {
+      background: radial-gradient(174.86% 134.88% at 129.03% 15.73%, #f100ff, #1ac0ef 11.34%, #fffc00 46.22%, #47ff00 95.73%);
+      border-radius: 5rem/calc(5rem/var(--fy));
+      transform: scaleY(var(--fy))
+    }
+
+    .scroll-smooth-effects__circle-inner2 {
+      background: radial-gradient(174.86% 134.88% at 129.03% 15.73%, #4fff00, #00f7ff 11.34%, #d100ff 46.22%, #ff0080 95.73%);
+      border-radius: 5rem/calc(5rem/var(--fy));
+      transform: scaleY(var(--fy))
+    }
+
+    .scroll-smooth-effects__circle-inner3 {
+      background: radial-gradient(174.86% 134.88% at 129.03% 15.73%, #00efff, #00f7ff 11.34%, #ff00f4 46.22%, #ff0404 95.73%);
+      border-radius: 5rem/calc(5rem/var(--fy));
+      transform: scaleY(var(--fy))
+    }
+
+    .scroll-smooth-effects__circle-inner-cyan {
+      background: radial-gradient(174.86% 134.88% at 129.03% 15.73%, #ff0000, #ff4900 5.46%, #ffec00 46.22%, #04ffcf 95.73%);
+      border-radius: 5rem/calc(5rem/var(--fy));
+      transform: scaleY(var(--fy))
+    }
+
+    .scroll-smooth-effects__circle-inner-blue {
+      background: radial-gradient(174.86% 134.88% at 129.03% 15.73%, #00efff, #00ffbe 11.34%, #ff00a3 46.22%, #048fff 99.16%);
+      border-radius: 5rem/calc(5rem/var(--fy));
+      transform: scaleY(var(--fy))
+    }
+
+    ol li,
+    ul li {
+      margin: 20px 0;
+      margin-left: 20px;
+    }
+
+    /* latin-ext */
+    @font-face {
+      font-family: 'Nosifer';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url(/fonts/ZGjXol5JTp0g5bxZWCRbVRFeCDpK1A.woff2) format('woff2');
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+
+    /* latin */
+    @font-face {
+      font-family: 'Nosifer';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url(/fonts/ZGjXol5JTp0g5bxZWCpbVRFeCDo.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .footnote {
+      font-size: 0.5em;
+      font-style: italic;
+    }
+
+    .nosifer-regular {
+      font-family: "Nosifer", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .books img {
+      height: 370px;
+    }
+
+    .profile {
+      border-radius: 50%;
+    }
+
+    html {
+      overscroll-behavior: contain;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html {
+        scroll-behavior: smooth;
+      }
+    }
+
+    body {
+
+      --activeColor: rgb(240 240 240);
+      --navBgColor: rgb(37 38 41);
+      --navTextColor: rgb(144 144 150);
+      --mainBg: rgb(20 20 23);
+
+      -webkit-font-smoothing: antialiased;
+      margin: 0;
+      color: #141417;
+      background: var(--mainBg);
+
+      font-family: medium-content-sans-serif-font, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    }
+
+    /*--h: calc(var(--i) * (23/100*100));*/
+    section {
+      --h: calc(var(--i) * 30);
+      --j: calc(var(--i) + 1);
+      --h2: calc(var(--n) * 30);
+
+      min-height: 100vh;
+      padding: 8rem 0 max(5vh, 2rem);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /*background-color: hsl(var(--h, 0), 100%, 51%);*/
+      /* /imgs/30_v3@0.5x.png */
+      background-image: url('/imgs/30_v3.png'), linear-gradient(hsl(var(--h, 0), 100%, 51%), hsl(var(--h2, 0), 100%, 51%));
+
+
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+
+    }
+
+
+    .container-spread {
+      width: 100%;
+      max-width: 100rem;
+      font-size: 1.5em;
+      z-index: 999;
+      display:flex; margin:4px; gap: 50px;
+    }
+
+    .container-countdown {
+      width: 100%;
+      max-width: 100rem;
+      font-size: clamp(1rem, 1.2vmin, 1.3rem);
+      z-index: 999;
+    }
+
+
+    .container {
+      width: 100%;
+      max-width: 80rem;
+      font-size: 1.5em;
+
+      z-index: 999;
+
+    }
+
+    /* @media (min-width: 32em) {
+      .container {}
+    } */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--navBgColor);
+      color: var(--navTextColor);
+      z-index: 2;
+      height: 6rem;
+    }
+
+    nav::after {
+      content: "";
+      position: absolute;
+      top: 1.7rem;
+      left: 0;
+      width: 100%;
+      height: 0.25rem;
+      background: currentColor;
+      pointer-events: none;
+    }
+
+    .marker {
+      position: fixed;
+      top: 1.75rem;
+      left: 4rem;
+      width: 1rem;
+      height: 1rem;
+      transform: translate3d(-50%, -50%, 0);
+      background: var(--activeColor);
+      border-radius: 100%;
+      z-index: 2000;
+    }
+
+    .marker::before {
+      content: "";
+      position: absolute;
+      top: calc(50% - 0.2rem);
+      right: 100%;
+      width: 4rem;
+      height: 0.4rem;
+      background-color: var(--activeColor);
+    }
+
+    .nav__track {
+      position: relative;
+      min-width: max(200rem, 200%);
+      padding: 1.5rem max(100rem, 100%) 0 0;
+      height: 6rem;
+    }
+
+    .nav__list {
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav__link {
+      position: relative;
+      display: block;
+      min-width: 8rem;
+      padding: 2.25rem 1rem 0.5rem;
+      text-align: center;
+      color: inherit;
+      text-decoration: none;
+      z-index: 1;
+      transition: color 150ms;
+    }
+
+    .nav__link:hover,
+    .nav__link:focus {
+      color: var(--activeColor);
+      text-decoration: underline;
+    }
+
+    .nav__link::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 0.65rem;
+      height: 0.65rem;
+      background-color: currentColor;
+      border-radius: 50%;
+      transform: translate3d(-50%, 0, 0);
+      transform-origin: center center;
+    }
+
+    .nav__link span {
+      display: block;
+      transition: transform 200ms;
+    }
+
+    .nav__link.is-active span {
+      transform: scale(1.4);
+      color: var(--activeColor);
+    }
+
+    .nav__link.is-active::after {
+      display: none;
+    }
+
+
+    .llm_answer {
+      font-size: 1.0em;
+      width: 70%;
+      background-color: #FFFFFA;
+      border: 1px solid #999;
+
+      background-color: #FFFFFA;
+      border-radius: 20px;
+      padding: 10px;
+      width: 70%;
+      padding-bottom: .625rem;
+      padding-top: .625rem;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      line-height: 3.0rem;
+    }
+
+    .llm_question {
+      font-size: 1.0em;
+
+      display: inline-block;
+      text-align: left;
+      border: 1px solid #DDD;
+      border-radius: 20px;
+      padding: 10px;
+
+      background-color: #EEEEEE;
+      padding: 10px;
+      padding-bottom: .625rem;
+      padding-top: .625rem;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      line-height: 3.0rem;
+    }
+
+    .section_llm_question {
+      margin-right: 15px;
+      font-size: 1.0em;
+      float: right;
+      width: 70%;
+
+      border: 1px solid #DDD;
+      border-radius: 20px;
+      padding: 10px;
+
+      background-color: #EEEEEE;
+      padding: 10px;
+      padding-bottom: .625rem;
+      padding-top: .625rem;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      line-height: 3.0rem;
+    }
+
+    .section_llm_answer {
+      margin-left: 15px;
+      font-size: 1.0em;
+      width: 70%;
+      background-color: #FFFFFA;
+      border: 1px solid #999;
+
+      background-color: #FFFFFA;
+      border-radius: 20px;
+      padding: 10px;
+      width: 70%;
+      padding-bottom: .625rem;
+      padding-top: .625rem;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      line-height: 3.0rem;
+    }
+
+    .section-panel {
+      /*80px looks fab */
+      border: 60px solid rgba(253, 254, 212, 0.25);
+      border-image: url("/imgs/drip_eee3.svg") 200 200 302 200;
+      border-image-repeat: round;
+    }
+
+    .section-content b {
+      font-weight: 600;
+    }
+
+    .section-content {
+      text-align: justify;
+      font-size: clamp(1rem, 12vmin, 1.6rem);
+      line-height: 1.5em;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+
+      z-index: 9999;
+      background-color: #EEE;
+      padding: 50px;
+      padding-left: 80px;
+      padding-right: 80px;
+    }
+
+    h1 {
+      font-family: "Nosifer", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .section_heading {
+      text-shadow: 0px 3px 3px #00ff55;
+      font-family: "Nosifer", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+
+      font-size: clamp(2rem, 12vmin, 7rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+      margin: 0 0 1rem;
+      grid-row: 1;
+      grid-column: 1/span 7;
+      align-self: end;
+      position: relative;
+      z-index: 9999;
+      text-align: center;
+    }
+
+    .section_heading span {
+      display: block;
+      z-index: 1;
+    }
+
+    .section_heading span:first-child {
+      font-size: clamp(1rem, 10vmin, 5rem);
+    }
+
+    .section__heading span:nth-child(2) {
+      word-break: break-word;
+    }
+
+    .section__image {
+      grid-row: 1;
+      grid-column: 5/span 3;
+      position: relative;
+      box-shadow: 0.45rem 0.45rem 8rem rgba(0, 0, 0, 0.3);
+      align-self: center;
+    }
+
+    .section__image::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: hsl(var(--h, 0), 50%, 50%);
+      mix-blend-mode: screen;
+    }
+
+    .section__image img {
+      filter: brightness(0.5) grayscale(100%);
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0 4px;
+    }
+
+    .column {
+      flex: 25%;
+      max-width: 25%;
+      padding: 0 4px;
+    }
+
+    .column img {
+      margin-top: 8px;
+      vertical-align: middle;
+    }
+
+    .ai-slop-names {
+      div {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+
+    #grid {
+      position: sticky;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+      touch-action: none;
+    }
+
+    .gridy {
+      position: sticky;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+      touch-action: none;
+      display: grid;
+      grid-column-gap: 0px;
+      grid-row-gap: 0px;
+    }
+
+    .iGrid {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      display: grid;
+      grid-column-gap: 0px;
+      grid-row-gap: 0px;
+    }
+
+    .iGridItem {
+      display: block;
+      position: relative;
+      opacity: 0;
+      left: 0px;
+      top: 0px;
+      z-index: 10;
+      border: 1px solid #000;
+
+
+    }
+
+    .iGridItem2 {
+      display: block;
+      position: relative;
+      opacity: 0;
+      left: 0px;
+      top: 0px;
+      z-index: 10;
+      border: 1px solid #000;
+      border-radius: 10px;
+      padding: 0px;
+      margin: 5px;
+      background-color: #282828;
+      box-shadow: 2px 2px 2px;
+    }
+
+    .iMovieText {
+      padding: 20px;
+    }
+
+    .iGridImg2 {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      display: block;
+      position: relative;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      z-index: 0;
+      background-color: #FFFFFF44;
+      border: 2px solid #141417;
+    }
+
+    .iGridImg {
+      display: block;
+      position: relative;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      z-index: 0;
+      background-color: #FFFFFF44;
+      border: 2px solid #141417;
+    }
+
+    .iGridVideo {}
+
+
+    .iTitle {
+      font-size: 2.0em;
+      color: white;
+    }
+
+    .iGridText {
+      will-change: transform;
+      display: inline-block;
+      position: relative;
+      left: 0px;
+      top: 10%;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background-color: rgb(46, 46, 46);
+      color: white;
+      font-size: 1.5em;
+      opacity: 0;
+      font-weight: 250;
+    }
+
+    .iGridScore {
+      will-change: transform;
+      display: block;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: auto;
+      height: auto;
+      z-index: 2;
+      background-color: #4CBB17;
+      color: white;
+      font-size: 12px;
+      opacity: 0;
+    }
+
+    .p5Canvas {
+      display: block;
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      z-index: 1;
+    }
+
+
+    .highlight {
+      color: red;
+      text-decoration: underline;
+      font-weight: 800;
+    }
+
+
+    .name-profile {
+      justify-content: center;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 100px;
+    }
+
+    .credit-title {
+      text-align: center;
+    }
+
+    .slop-name {
+      white-space: nowrap;
+      padding-left: 10px;
+      padding-right: 10px;
+      text-transform: capitalize;
+      font-size: 1.5em;
+    }
+
+
+    .name-profile .lead {
+      font-size: 2em;
+    }
+
+    .name-profile .lead h2 {
+      padding: 0px;
+      margin-bottom: 20px;
+    }
+
+    .name-profile .lead h4 {
+      padding: 0px;
+      margin-top: 0px;
+    }
+
+
+    .inline {
+      width: 50px;
+      margin-left: -65px;
+      min-width: 25px;
+      box-shadow: none;
+      padding-right: 5px;
+      margin-bottom: -45px;
+    }
+
+
+    .slop_stream {
+      height: 0px;
+      width: 21px;
+      bottom: 69px;
+      margin-top: -152px;
+      z-index: 99999;
+      border-radius: 2% 47% 82% 35% / 45% 45% 6% 66%;
+      margin-left: -5px;
+      will-change: border-radius, transform, opacity;
+      animation: sliderShape 20s linear infinite;
+      display: block;
+
+      border-top-left-radius: 0px;
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+
+      opacity: 0.95;
+    }
+
+    .people {
+      font-size: 0.2em;
+      margin-bottom: 0px;
+      margin-top: 4px;
+      z-index: 1;
+      margin-left: -3px;
+      margin-right: -3px;
+    }
+
+
+    .left-people {
+      /* margin-bottom: 0px; 
+  margin-top: 0px;
+*/
+
+    }
+
+    .right-people {
+      /* margin-bottom: 0px; 
+  margin-top: 0px;
+  z-index: 1;
+  rotate: 90deg;  */
+    }
+
+
+    #spiny {
+      z-index: -10;
+    }
+
+    .count-down {
+      display: flex;
+      align-items: center;
+    }
+
+    .count-down h1 {
+      font-size: clamp(1rem, 7.0vmin, 8rem);
+      margin: 0px;
+      text-shadow: 3px 2px 0px rgba(255, 0, 214, 1);
+      text-align: center;
+    }
+
+   
+
+
+
+
+    .count-down .num {
+      /*font-size: 40em;*/
+      /*font-size: clamp(1rem, 100vw, 73rem);*/
+      font-size: clamp(38rem, 60vw, 80rem);
+      
+      text-align: center;
+      text-shadow: rgb(240, 255, 0) 0px 8px 170px;
+    }
+
+    .dictionary li {
+      border-bottom: 1px solid black;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    .tokens span {
+      padding-left: 1px;
+      padding-right: 1px;
+      border-radius: 5px;
+      border: 1px solid #222222;
+
+    }
+
+    .tokens span:nth-child(even) {
+      background-color: red;
+    }
+
+    .tokens span:nth-child(odd) {
+      background-color: greenyellow;
+    }
+
+      .review-section {
+
+        margin-bottom: 30px;
+      }
+
+      .review p {
+        padding: 0px;
+        margin: 0px;
+      }
+
+      .review {
+        line-height: 2.0;
+      }
+
+      .note {
+        font-size: 0.8em;
+        font-weight: 600;
+      }
+
+
+
+      h1.splash-title{
+        font-size: clamp(2rem, 12vmin, 7rem);
+        text-align: center;
+      }
+
+ /* .splash-title{
+    font-size: clamp(2rem, 12vmin, 7rem);
+  } */
+
+      h1.splash-title-full{
+        font-size: clamp(3.5rem, 16vw, 16rem);
+        margin: 0px;
+        text-align: center;
+      }
+
+
+/*
+clamp(6.2rem, 16vw, 16rem)
+clamp(1.2rem, 12vmin, 16rem)
+*/
+
+
+    #vomit-ai-rainbow{
+      position: relative; 
+      height: 0px; 
+      top: 4px; 
+      display: flex; 
+      width:100%; 
+      justify-content: center; 
+      margin-left: 0px;
+    }
+
+@media(max-width: 950px){
+
+    .scroll-smooth-effects__wrapper{
+      display: none;
+    }
+    #slop-o{
+      display:none;
+    }
+    #top-o{
+      display:none;
+    }
+
+    .iTitle {
+      font-size: 1.5em;
+    }
+    .iGridText {
+       font-size: 1.2em;
+    }
+
+      .section-panel{
+       border: 40px solid rgba(253, 254, 212, 0.25);
+        border-image: url("/imgs/drip_eee3.svg") 200 200 302 200;
+        border-image-repeat: round;
+      }
+
+      /* .section-panel{
+        border-image: url("/imgs/drip_eee3.svg") 200 0 302 0;
+        border-left:0px;
+        border-right:0px;
+      } */
+
+      .section_llm_question{line-height: 2rem;}
+      .section_llm_answer{line-height: 2rem;}
+
+      blockquote{ margin-top: 15px;
+margin-bottom: 15px;
+margin-left: 0px;
+margin-right: 0px; }
+      ul{padding: 0;}
+      ol{padding-left: 10px; padding-right: 10px;}
+      .two-column{
+        flex-wrap: wrap;
+      }
+
+      .container-spread{
+        flex-wrap: wrap;
+      }
+
+      .count-down{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        width:100%;
+      } 
+      .count-down .num {
+        width:100%;
+      } 
+
+    .chart{
+      width:100%;
+    }
+
+    .chart-details{
+      margin-left: 15px;
+      margin-right: 15px;
+
+    }
+
+    .chart-summary{
+      margin-left: 15px;
+      margin-right: 15px;
+
+    }
+
+    .count-down h1 {
+      font-size: 2.8rem;
+    }
+
+    }
+
+
+/* tiny */
+@media(max-width: 600px){
+  .container{
+    font-size: 1.2em;
+  }
+
+  #vomit-ai-rainbow{
+    top: 14px;
+  }
+
+  .section-content{
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 1.2rem;
+  }
+
+  .count-down h1{
+    font-size: 2.5rem;
+  }
+}
+
+
+
+
+  </style>
+</head>
+
+<body translate="no">
+  <div id="gridHold"></div>
+  <div id="grid"></div>
+
+  <main id="smooth-content">
+    <section style="--i: 0; --n:0; ">
+      <div class="container">
+        <h2 class="section_heading">Who is</h2>
+        <h2 class="section_heading" id="rowan-token">&lt;Rowan&gt; &lt;Hale&gt;?</h2>
+        <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+          style="top: 3vh; left: 42vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+          <div class="scroll-smooth-effects__circle-inner3" style="width: 0.5vw; height: 0.5vw; opacity: 0.558497;">
+          </div>
+        </div>
+        <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+          style="top: 40vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate3d(0px, 120px, 0px); opacity: 0.7984;">
+          <div class="scroll-smooth-effects__circle-inner3" style="width: 1.18893vw; height: 1.1vw; opacity: 0.558497;">
+          </div>
+        </div>
+        <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+          style="top: 86vh; left: 52vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+          <div class="scroll-smooth-effects__circle-inner3" style="width: 1.0vw; height: 1.1vw; opacity: 0.558497;">
+          </div>
+        </div>
+        <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+          style="top: 23vh; left: 6vw; translate: none; rotate: none; scale: none; --fy: 4; transform: translate(0px, 0px); opacity: 0.7984;">
+          <div class="scroll-smooth-effects__circle-inner3" style="width: 0.8vw; height: 0.8vw; opacity: 0.558497;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="--i: 0; --n:0; transform: translate(0px, 0px);">
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 3vh; left: 42vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner3" style="width: 0.5vw; height: 0.5vw; opacity: 0.558497;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 40vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate3d(0px, 120px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner3" style="width: 1.18893vw; height: 1.1vw; opacity: 0.558497;">
+        </div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 86vh; left: 52vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner3" style="width: 1.0vw; height: 1.1vw; opacity: 0.558497;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 23vh; left: 6vw; translate: none; rotate: none; scale: none; --fy: 4; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner3" style="width: 0.8vw; height: 0.8vw; opacity: 0.558497;"></div>
+      </div>
+
+      <div class="container">
+
+
+
+        <div class="section-panel">
+          <div class="section-content">
+
+
+
+
+            <p>A name is an abstract label, or token. It provides little description of the who behind Rowan Hale.
+            <p>
+
+            <p><b>But naming is a crucial part of turning the abstract into a person.</b></p>
+
+            <p>A right to a name is guaranteed by the UN Convention on the Rights of the Child. Parents search to find
+              the "right" name. Names intersect personal identities, ritual and social life. They can be given, lost,
+              traded, stolen and inherited.</p>
+
+            <p>They enable us to talk about Rowan, a person who you've already started to build an
+              outline of in your mind.</p>
+
+            <p>Names attach us to a past and the cultures that shaped them. Carrying attitudes on social
+              status & power.</p>
+            <p>What culture does Rowan Hale come from?</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section style="--i: 0; --n:1; transform: translate(0px, 0px);">
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 3vh; left: 42vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner3" style="width: 0.5vw; height: 0.5vw; opacity: 0.558497;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 40vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate3d(0px, 120px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner3" style="width: 1.18893vw; height: 1.1vw; opacity: 0.558497;">
+        </div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 86vh; left: 52vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner3" style="width: 1.0vw; height: 1.1vw; opacity: 0.558497;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 23vh; left: 6vw; translate: none; rotate: none; scale: none; --fy: 4; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner3" style="width: 0.8vw; height: 0.8vw; opacity: 0.558497;"></div>
+      </div>
+
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+
+            <blockquote><b>Rowan</b>: <span style="font-size: 0.5em;">(Unisex)</span>
+              <ol class="dictionary">
+                <li><i>Irish</i> surname Ó Ruadháin and ruadh "red-haired" or “rusty.”</li>
+                <li><i>Arabic</i> feminine name (روان) referring to a river in Paradise.</li>
+              </ol>
+            </blockquote>
+            <blockquote><b>Hale</b>:
+              <ol class="dictionary">
+                <li><i>Halh</i>: nook or a recess in the landscape.</li>
+                <li><i>Hal</i> In good health, robust.</li>
+                <li>The Scottish and northern English form of "whole"</li>
+                <li>"Free from infirmity" (1734), especially in reference to the aged</li>
+                </ul>
+            </blockquote>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="robot_slop" style="--i: 1; --n:2;">
+      <div class="container">
+
+        <div class="" style="font-size: 10em; background: none;">
+          <div style="display: flex; align-items: center; justify-content: center;">
+            <span class="people">
+              <div style="rotate: -75.5deg; margin-bottom:0px; position: relative; bottom: -29px; z-index: 0">&#128587;
+              </div>
+              <div style="rotate: -98deg; margin:0px; position:relative; bottom: 0px; left: 2px; z-index: 2">🙋‍♂️</div>
+              <div style="rotate: -120deg; margin:0px; position:relative; bottom: 25px; left: 2px; z-index: 0;">
+                &#128587;</div>
+            </span>
+            <span style="z-index: 2;">
+
+              <svg width="334" height="350" viewBox="0 0 2359 2475" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
+                style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+                <g id="g5">
+                  <path id="path1"
+                    d="M2142.78,849.563l0,1204.66c0,201.917 -163.929,365.85 -365.846,365.85l-1199.12,0c-201.916,0 -365.85,-163.933 -365.85,-365.85l0,-1204.66c0,-201.916 163.934,-365.849 365.85,-365.849l1199.12,-0c201.917,-0 365.846,163.933 365.846,365.85Z"
+                    style="fill:url(#_Linear1);stroke:url(#_Linear2);stroke-width:104.17px;" />
+                  <use id="use1" xlink:href="#_Image3" x="0" y="0" width="215px" height="60px"
+                    transform="matrix(4.16667,0,0,4.16667,722.771,1770.12)" />
+                  <use id="use2" xlink:href="#_Image4" x="0" y="0" width="133px" height="67px"
+                    transform="matrix(4.16667,0,0,4.16667,396.629,946.396)" />
+                  <path id="path2"
+                    d="M940.579,1214.41c0.125,3.358 0.188,6.733 0.188,10.12c-0,146.917 -119.275,266.192 -266.188,266.192c-146.912,0 -266.187,-119.275 -266.187,-266.192c-0,-3.387 0.062,-6.762 0.187,-10.12l532,-0Z"
+                    style="fill:#2d7e97;stroke:#396d84;stroke-width:17.38px;" />
+                  <path id="path3"
+                    d="M940.579,1214.41c0.125,3.358 0.188,6.733 0.188,10.12c-0,146.917 -119.275,266.192 -266.188,266.192c-146.912,0 -266.187,-119.275 -266.187,-266.192c-0,-3.387 0.062,-6.762 0.187,-10.12l532,-0Z"
+                    style="fill:#2d7e97;stroke:#396d84;stroke-width:17.38px;" />
+                  <use id="use3" xlink:href="#_Image5" x="0" y="0" width="90px" height="90px"
+                    transform="matrix(4.16667,0,0,4.16667,485.258,1034.33)" />
+                  <use id="use4" xlink:href="#_Image4" x="0" y="0" width="133px" height="67px"
+                    transform="matrix(4.16667,0,0,4.16667,1396.63,946.396)" />
+                  <path id="path4"
+                    d="M1940.58,1214.41c0.125,3.358 0.188,6.733 0.188,10.12c-0,146.917 -119.275,266.192 -266.188,266.192c-146.912,0 -266.187,-119.275 -266.187,-266.192c-0,-3.387 0.062,-6.762 0.187,-10.12l532,-0Z"
+                    style="fill:#2d7e97;stroke:#396d84;stroke-width:17.38px;" />
+                  <path id="path5"
+                    d="M1940.58,1214.41c0.125,3.358 0.188,6.733 0.188,10.12c-0,146.917 -119.275,266.192 -266.188,266.192c-146.912,0 -266.187,-119.275 -266.187,-266.192c-0,-3.387 0.062,-6.762 0.187,-10.12l532,-0Z"
+                    style="fill:#2d7e97;stroke:#396d84;stroke-width:17.38px;" />
+                  <use id="use5" xlink:href="#_Image5" x="0" y="0" width="90px" height="90px"
+                    transform="matrix(4.16667,0,0,4.16667,1485.26,1034.33)" />
+                </g>
+                <path id="path6"
+                  d="M156.579,1144.46l0,572.166c0,27.325 -22.179,49.504 -49.504,49.504l-51.496,0c-27.321,0 -49.504,-22.179 -49.504,-49.504l-0,-572.166c-0,-27.321 22.183,-49.505 49.504,-49.505l51.496,0c27.325,0 49.504,22.184 49.504,49.505Z"
+                  style="fill:url(#_Linear6);stroke:#5d0707;stroke-width:12.17px;" />
+                <path id="path7"
+                  d="M2348.25,1144.46l-0,572.166c-0,27.325 -22.179,49.504 -49.504,49.504l-51.496,0c-27.321,0 -49.504,-22.179 -49.504,-49.504l-0,-572.166c-0,-27.321 22.183,-49.505 49.504,-49.505l51.496,0c27.325,0 49.504,22.184 49.504,49.505Z"
+                  style="fill:url(#_Linear7);stroke:#5d0707;stroke-width:12.17px;" />
+                <rect id="rect7" x="889.521" y="1792.85" width="64.917" height="203.637" />
+                <rect id="rect8" x="1133.41" y="1787.87" width="64.917" height="216.979" />
+                <rect id="rect9" x="1391.58" y="1796.1" width="64.917" height="203.638" />
+                <path id="path9"
+                  d="M1181.47,1263.28l169.2,338.409c1.516,3.033 1.358,6.633 -0.425,9.516c-1.783,2.888 -4.934,4.642 -8.325,4.642l-338.408,-0c-3.388,-0 -6.538,-1.754 -8.321,-4.642c-1.784,-2.883 -1.946,-6.483 -0.429,-9.516l169.204,-338.409c1.658,-3.316 5.045,-5.408 8.75,-5.408c3.708,0 7.095,2.092 8.754,5.408Z"
+                  style="fill:url(#_Linear8);stroke:#70191a;stroke-width:16.5px;" />
+                <circle id="spiny" cx="1177.96" cy="213.821" r="200.8"
+                  style="fill:url(#_Linear9);stroke:#fa8503;stroke-width:26.04px;" />
+                <path id="path10"
+                  d="M1478.55,425.008c-35.571,92.834 -168.025,160.788 -297.804,160.788c-129.779,-0 -271.058,-74.267 -306.629,-167.096c38.933,-21.175 133.325,-54.779 133.325,-54.779c-0,-0 69.517,4.183 173.833,4.183c104.317,0 171.713,-5.062 171.713,-5.062c-0,-0 89.054,42.112 125.562,61.966Z"
+                  style="fill:url(#_Linear10);stroke:url(#_Linear11);stroke-width:13.88px;" />
+                <path id="path11"
+                  d="M884.054,422.771c0,-0 47.742,165.821 309.671,164.371c199.067,-1.105 275.642,-152.188 275.642,-152.188"
+                  style="fill:none;stroke:url(#_Radial12);stroke-width:26.04px;" />
+                <path id="path12-5"
+                  d="M1827.04,1235.06c-12.65,24.429 -29.996,49.962 -38.046,56.633c-18.687,15.487 -56.9,45.775 -104.825,48.679c-48.066,2.917 -97.058,-28.258 -106.521,-34.358c-30.241,-19.496 -44.662,-46.355 -76.429,-53.167c0,-0 -0.6,-1.792 -0.35,-2.642c1.675,-5.646 2.134,-8.258 10.404,-31.241c0.955,-2.646 16.905,-35.684 35,-57.671c9.5,-11.542 57.309,-65.904 122.055,-64.179c65.708,1.754 85.641,21.908 113.133,48.904c20.025,19.662 32.342,45.721 45.708,86.058c0.029,0.092 -0.112,2.954 -0.129,2.983Z"
+                  style="fill:url(#_Radial13);stroke:url(#_Linear14);stroke-width:19.17px;" />
+                <path id="path12"
+                  d="M832.329,1231.64c-12.65,24.429 -29.996,49.962 -38.046,56.633c-18.687,15.487 -56.9,45.775 -104.825,48.679c-48.066,2.917 -97.058,-28.258 -106.521,-34.358c-30.241,-19.496 -44.662,-46.354 -76.429,-53.167c0,0 -0.6,-1.792 -0.35,-2.642c1.675,-5.645 2.134,-8.258 10.404,-31.241c0.955,-2.646 16.905,-35.684 35,-57.671c9.5,-11.542 57.309,-65.904 122.055,-64.179c65.708,1.754 85.641,21.908 113.133,48.904c20.025,19.662 32.342,45.721 45.708,86.058c0.03,0.092 -0.112,2.954 -0.129,2.984Z"
+                  style="fill:url(#_Radial15);stroke:url(#_Linear16);stroke-width:19.17px;" />
+                <g id="eye">
+                  <circle id="iris_right" cx="1668.78" cy="1215.37" r="83.329" style="fill:url(#_Radial17);" />
+                  <circle id="pupil_right" cx="1668.78" cy="1215.37" r="53.329" />
+                  <use id="use17" xlink:href="#_Image18" x="0" y="0" width="17px" height="17px"
+                    transform="matrix(4.16667,0,0,4.16667,1603.64,1137.42)" />
+                </g>
+                <g id="eye1" serif:id="eye">
+                  <circle cx="672.071" cy="1214.02" r="83.771" id="iris_left" style="fill:url(#_Radial19);" />
+                  <circle id="pupil_left" cx="672.071" cy="1214.02" r="52.771" />
+                  <use id="use16" xlink:href="#_Image20" x="0" y="0" width="17px" height="17px"
+                    transform="matrix(4.16667,0,0,4.16667,608.996,1136.78)" />
+                </g>
+                <defs>
+                  <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(1.16089e-13,-1895.87,1895.87,1.16089e-13,1174.13,2414.31)">
+                    <stop offset="0" style="stop-color:#257f8e;stop-opacity:1" />
+                    <stop offset="0.57" style="stop-color:#d0e9ec;stop-opacity:1" />
+                    <stop offset="0.69" style="stop-color:#d9f1f1;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#dbf3f3;stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="_Linear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(1.19778e-13,-1956.13,1956.13,1.19778e-13,1176.92,2438)">
+                    <stop offset="0" style="stop-color:#023643;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#b1c8c1;stop-opacity:1" />
+                  </linearGradient>
+                  <image id="_Image3" width="215px" height="60px"
+                    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANcAAAA8CAYAAAD1/i/0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAANbUlEQVR4nO2dW2wdRxnHf3u1j+v40MZyQhw1ptQhFZFTtYg0ieI0SDQVBRqBgZb0ARVUQbmIAk/wwAOPPECRKiEQKHlIi4oUNaqoIqhK41yKShQpbYmsuHWci5PGTpqmtWWfs+fs8rCZ9XjO7J71NXE8P2l0zu7O7o6t/Z9vvm++mbVYOGxgOfDJ66WwgPc2LG0+Bi4CF4BrQLQQN7Xm6bousAX4KvAAsJpYUN483c9gyMs4scjOAgeB/cAJ5kFwcymuAvAQsBP4CrGVMhgWA2eIRfYS0AtUb2xzJmkAngFGiNVviimLufQD32L+enW5sIFdwGlu/D/EFFPmuvwX2M4NYDNwfJqNNcWUxVheAT7NDJiJ6Xsa+APgzOSGAJZl4fv+TE83GHITRRHlcnm2l7kGfBP453ROmo64PGJRfT/vCa7rctddd3HnnXfS0tJCc3Mzzc3NNDU1Ydv2dNppMMyYarXK6Ogoo6OjjI2N8eGHH3L69GnOnTtHGIZ5LxMCPweeJbZodckrrlbg78CD9Sp6nse6devo7Oyko6MD13Vz3sJgWFjGx8cZGBigv7+f/v5+oiiXZv5K3Hsr1auYR1ytwGHgM1mVbNtmw4YNbN68mdtuuy1PIw2Gm4YrV67Q29tLf39/nuoHiMdwg6xK9cTlEfczH8yqtHbtWrq7u7njjjvyNMxguGk5f/48r7/+OhcuXKhX9TngR1kV6gUlngN6Uk92HHbs2MG2bdsoFEw2k2Hx09LSwvr166lUKgwNDWVV/TxwCTiWViFLXE8Dv047WCgU6OnpobOzs157DYZFhWVZdHR0UCwWGRgYyPLFHgYOAYPa66SctJk4DUQrvuXLl9PT00OxWJxeqw2GRcbQ0BD79u1jfHw8rcoVYANQY+Z04rGJc6xW6a5UKBR4/PHHjbAMS4KWlhZWrVrFyZMn0yxYE3HQ7yX1gE5c3wZ+qLuK4zj09PTQ1tY2m/YaDIuKYrFIU1MT7733XlqVLmJxXZJ3quJqAPYBn9BdYceOHcbHMixJVq5cyfj4OBcvXtQdtoAOYK+8U02TePp6pRrWrl1LV1fX7FtpMCxStm/fnjXc9DDwBXmHLK4C8EvdWbZt093dPScNNBgWK47j1NPBb+QNOTfpIWLHrIaurq4FGSC2LCvJObQsa8qnjMlLXHrocgBFgEF8hmGYN4VpxnR2dtLe3p42BrYZ+BTxNKwp4tqpq+15Hlu2bJnTBlqWheM4iZjEpyhAjcjU8w1LC1U08rYQXhiGSYmiqGZ7LrAsi23btvH888+nVXkU+D1Misslnppfw7p16+YkV9BxHGzbxnEcXNfFdV0sy8otrJlYKyPCm5+ZPPSyFZOtlviUBVWtVgnDkEqlknyvVmc3i3/16tWsWLGCS5cu6Q7vRBHXZlLWvJhNdNCyLFzXxXEcfN/HcZxEZEJcquUSgpDFlEdYpqt461BvGoh8XBWaarmiKKJSqVCpVIiiiCAIku1qtTpji9bZ2Zkmrq3EWroixPWorpbneXR0dEz7xkJUnufh+35iqWRxiU9ZVKqwVMEYARlU4ckWC2KBqV1C2WJVq1XK5TJhGFIulwmCgCDITG7X0tnZyeHDh3WHbODLwB4hrgd0tWYyH8t1XXzfT0QlLJbneUmXUPhcqrgAreXSbRuWLmkCE8IS+0R3UHQPhbXyPI8gCHBdl0qlwsTERGLN8tLa2kqxWOTatWu6wxuRxLVaV2PNmjW5byam7jc0NOC6Lo2NjYnFEsIS4pJFJftacrQQagVlfCiD2o1Tu4iquETXT/a7giBIBBYEAbZtUy6XKZVKua2YSO49ceKE7nA7xD6XTbxgZw0tLS25biQsU2NjYyIwz/MSUXmel4hKfIquo2yp0iKExmoZVHRBDbFfjRYKv8t1XcIwxHEcqtVq8oOv9qLK5XIuX2zZsmVph1ZBLK7lpKyE29zcXPcGjuPQ0NCQFN/3p/havu9j2za+708RlBzQgGxxGYtlkKkXlpf9MCEsz/MSy2XbdiIyEQtQXZRSqVRXYBn6SMSltVp1Tgbih97zvERYjY2NibDkQIawYHIgQw7FA1OCGlkDyAJjzZYOWdFD2c+Sgxlin7BQqsWqVqs10Wr5xz6KIkql7GUyMvSxEnBSxWVZFk1NTZkX932fxsbGRFiqvyW6g/IvhBg8FiJTszJkQaWJS61nuLWRBaQ7pqunjnPJQQ0hLlVYAlnMWQLLEJcNtLnkXCZKRVgsYaVEd1D2t1SBqeNbOnElrZuBZTLWbPEzjaXOtPVVcQmrJbqHQlhBEExJYlCvISygEKSOet1GF3g/7cSxsTGt0yb8LBG8EIKSfS5ZXHIIXjd4DOljW2B8rqWE49RfazbtoZZ9LVlU4tOyrERkaT6+Okbm+37qYPPY2FhaE0Ng2CV+nYqW0dFRrbjkAWIhJF0gI8/4lvzHmSRdw3RQrZZ4fhzHSUQCJGNdlmVlpj4JiyW6kKKkDTSPjo6mXep9oOoSrwEQoIkY6pQpUplkyySLTHT9VGEJX0sOxdfLyBAYgRlUwjCseS7UMS/btomiKIkOyhZL90OuZnWI4vt+IlCZDHFdgLhbGF3fqBkx/uijj2rOEuKRrZNcZKGpgQwRLZR9LnFN9R4GQxY6YYl94rvcTRRi0vl0YRgmY2BCWMJwBEGQPL+q76XTx3WGYDJx9zwacQ0ODnLfffdN2Se6fbKYVBHJwQs5M0OXBS//k0zo3ZAHnUCEryYslain+mEqaoKvHN1Wh5JkcUVRxJkzZ9KaOEVcbxC/ZnUKg4ODSaqI+AOE9ZFD6brUJlloefytNPGYYIZBRRaSDiEo8ZzJeYbiXGHNxPMZRVFivUTOofy8uq47JXNjZGQkLa8Q4D8wKa79wC/UGpVKhcHBwWTaiSwQtbsnLJJun85iqaIyVsuQFyGetGdGtlzythCNeH5F8EJOxxOikmME8jMtAiIZa8pXgX/A5BoabxC/drUG+SKqv6QW3fiV+l13TM0vTOs2GgyQ/pyoyQi6JHDdj37avELd8y3IENdB4AOYtFxV4GXgSbVmX18fW7duTULyaZZIFUKeIEW9LqERliELne8lBzLEMyp8KtmiiW3xqRtvVYUlntezZ88yPDyc1qz9SVuknTUrhkLcNTxy5MiUG6uomRW6Xwld3TSMxTLkIa13k/VDXu96aeeL/VEUcfDgwazLaMX1L0Arx7fffpvLly/XbZzBcKtz6tSptIVBIX4pQxJClMU1gbLumiCKInp7e1Pzvuql/KfNvUlDvobBkIY86KvuV8n73KWdDxAEAb29vVmX+JW8oc7h/xPwUzRvL3/33Xc5duwY3d3d2nUK1D9SHVfQjaiLlBQ1qqP+sQZDXnQL1qizk9Vt1SDojoVhyIEDB7h69WrarV8mtlwJ6qhalTgv6hu6swcGBlizZg1tbW2pg8Y6J1DNHRSfQlxin5zbpRYz3mUQCIHoCtQutya+y9NP1IVrKpUKYRhOWR1K5BSWy2UOHTqUZbVC4OsoEXddCvJJ4EtcXwdAJooi+vr6WL9+PcuWLatJfRKh+rQZxqqY5Otmzd0SdUwxJYqmzt/SPumS+MS2bj0NNY9QCEuIqlKpUCqVeOedd3jxxRdT70f8EvK/qDvT8vtPAN/RHa9UKvT19XHPPfdQLBaTgWM5W0MXJZQFJv/hsniyRGQsl0GQZbl01kqUKJqcPKkuWCOWXBOfQmQnT55k9+7dWQvXjBD39GqyeLOe2O8Bf0472NTUxFNPPcW9995LoVComdslL0xjEncN840qKvVTFpYQm2ylRPevXC4zMTHBxMQEr776Ki+88EKW7x8A24EjuoP1zMGzwE/SDtq2zWOPPcYjjzySCEtky+sy4+tNOVG/q/cyGCA90KUTmGzR1DUMhcUKgiBZVq1UKjE+Ps6ePXt47bXX6jXlu8RdQi31xOUCrwBfzKrU1dXFE088wd133z1lgRrdZEm5G6nLKzQTJg15qBduF4JSl1qTrZYQlugGlkoljh8/zt69e7My3gW/A36WVSGPI3M7cYjxs5kXsiy6u7vZtWsX7e3tNen6s5nmL65vMIA+kJHWLRSiiqJoyssYZD+rUqnQ39/P7t27eeutt/I04WXga0DmEr15n9jbgb8Rv8MrE8/z2LRpE5s2bWLjxo0Ui8XUFzCoAjOLgRqmS1qCgiwsVVzCcl2+fJmjR49y9OhRjh8/nhUNlHkOeIbY38pkOubABX5LPMicC8/z2LBhA/fffz9tbW20tbWxYsUKWltbKRQKqdYLzBQUwyT1kgl0opJ9rdHRUYaHhxkeHmZkZIShoSHefPNN+vr68goKYiv1Y+CPeU+YSV/ryes30K7SmxfP80xXzzDvRFE0o7eYKHwA9AD/nn2L6vM54jlgkSmm3OJlH5olMOYbizjl49QsGm6KKTdrOUz8Usgbigf8ALjIjf+HmGLKbMv/iF8GOWufZS6dHp94tHonceNSX/BgMNxknCKeLLyfeHGZOZmOMV8RBZvYL9tJ/NbK9utl9m8uNxhmx1XidTrPEa938RLQNx83Wuhw3TJii7YKKCzwvQ1Ll4+JBXURGF+om/4fjppT2V2/R1UAAAAASUVORK5CYII=" />
+                  <image id="_Image4" width="133px" height="67px"
+                    xlink:href="data:image/png;base64,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" />
+                  <image id="_Image5" width="90px" height="90px"
+                    xlink:href="data:image/png;base64,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" />
+                  <linearGradient id="_Linear6" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(3.99544e-14,-652.504,652.504,3.99544e-14,86.1875,1758.53)">
+                    <stop offset="0" style="stop-color:#570001;stop-opacity:1" />
+                    <stop offset="0.46" style="stop-color:#6a1717;stop-opacity:1" />
+                    <stop offset="0.74" style="stop-color:#ffc2c1;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#f62f14;stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="_Linear7" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(3.99544e-14,-652.504,652.504,3.99544e-14,2277.85,1758.53)">
+                    <stop offset="0" style="stop-color:#570001;stop-opacity:1" />
+                    <stop offset="0.46" style="stop-color:#6a1717;stop-opacity:1" />
+                    <stop offset="0.74" style="stop-color:#ffc2c1;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#f62f14;stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="_Linear8" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(2.04414e-14,-333.833,333.833,2.04414e-14,1184.01,1603.34)">
+                    <stop offset="0" style="stop-color:#650d0c;stop-opacity:1" />
+                    <stop offset="0.05" style="stop-color:#f08786;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#962c2a;stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="_Linear9" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(2.38968e-14,-390.264,390.264,2.38968e-14,1170.59,405.296)">
+                    <stop offset="0" style="stop-color:#f67401;stop-opacity:1" />
+                    <stop offset="0.63" style="stop-color:#ffef4b;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#fffed8;stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="_Linear10" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(1.97958e-14,-323.29,323.29,1.97958e-14,1180.32,585.133)">
+                    <stop offset="0" style="stop-color:#130022;stop-opacity:1" />
+                    <stop offset="0.15" style="stop-color:#3b274a;stop-opacity:1" />
+                    <stop offset="0.28" style="stop-color:#6b567a;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#ebebeb;stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="_Linear11" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(9.89154,222.979,-222.979,9.89154,1172.18,362.815)">
+                    <stop offset="0" style="stop-color:#848282;stop-opacity:1" />
+                    <stop offset="0.83" style="stop-color:#665373;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#604970;stop-opacity:1" />
+                  </linearGradient>
+                  <radialGradient id="_Radial12" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(746.754,-22.5315,9.79017,324.473,1193.84,468.217)">
+                    <stop offset="0" style="stop-color:#7a6787;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#000;stop-opacity:1" />
+                  </radialGradient>
+                  <radialGradient id="_Radial13" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(154.612,13.3674,-9.96663,115.278,1655.54,1220.56)">
+                    <stop offset="0" style="stop-color:#f8f8f8;stop-opacity:1" />
+                    <stop offset="0.59" style="stop-color:#e6e5e5;stop-opacity:1" />
+                    <stop offset="0.81" style="stop-color:#bfbabc;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#988e92;stop-opacity:1" />
+                  </radialGradient>
+                  <linearGradient id="_Linear14" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(345.715,0,0,345.715,1491.04,1218.83)">
+                    <stop offset="0" style="stop-color:#2a2a2a;stop-opacity:1" />
+                    <stop offset="0.2" style="stop-color:#2a2a2a;stop-opacity:1" />
+                    <stop offset="0.59" style="stop-color:#7f7f7f;stop-opacity:0.59" />
+                    <stop offset="0.86" style="stop-color:#313131;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#313131;stop-opacity:1" />
+                  </linearGradient>
+                  <radialGradient id="_Radial15" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(154.612,13.3674,-9.96663,115.278,660.829,1217.13)">
+                    <stop offset="0" style="stop-color:#f8f8f8;stop-opacity:1" />
+                    <stop offset="0.59" style="stop-color:#e6e5e5;stop-opacity:1" />
+                    <stop offset="0.81" style="stop-color:#bfbabc;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#988e92;stop-opacity:1" />
+                  </radialGradient>
+                  <linearGradient id="_Linear16" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(345.715,0,0,345.715,496.331,1215.4)">
+                    <stop offset="0" style="stop-color:#2a2a2a;stop-opacity:1" />
+                    <stop offset="0.2" style="stop-color:#2a2a2a;stop-opacity:1" />
+                    <stop offset="0.59" style="stop-color:#7f7f7f;stop-opacity:0.59" />
+                    <stop offset="0.86" style="stop-color:#313131;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#313131;stop-opacity:1" />
+                  </linearGradient>
+                  <radialGradient id="_Radial17" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(63.8938,-60.9342,-60.9342,-63.8938,1673.11,1219.94)">
+                    <stop offset="0" style="stop-color:#fff;stop-opacity:1" />
+                    <stop offset="0.71" style="stop-color:#debc25;stop-opacity:1" />
+                    <stop offset="0.8" style="stop-color:#b98b0a;stop-opacity:1" />
+                    <stop offset="0.87" style="stop-color:#92673e;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#503734;stop-opacity:1" />
+                  </radialGradient>
+                  <image id="_Image18" width="17px" height="17px"
+                    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABk0lEQVQ4jW3UUU9TQRAF4G9LW8A0YIroC5DwrPH//xEfkYSIMYAQULTtpXd96FmowCaT3eydOXNmzuwtnq1aa8FgzaCij9VSSl2PKa8Ej7CJLYxzt8Qcs+wPpZT+P5AAbCRwB3uY5jzEAre4wjV+YVFKWYqDZNtK8AGOcRigMf7iEmc4xXfc1FrnpZR+GBajZD3AJ3wM0Lt8m+ECH5KsosOy1toNw2IzLI4D8BlHAd5IwD7epD+/cYc/eGggW6F+GKAjvA94a+w4+w3OYz8xayDjZJ2G0U4AWs8KtrGbEqeYpNRBm4NBAkYB3PA0Iw1kkPtR7NFnkCYtI+Ms1uWuDVXz6V7xMYzD3GoOLqPCfhhth0WPe6sZubCal7sA9cM4zNKks8jYVNhdU+caX3GCb2nwHLWBLAJyGqWaCnth1ObkBF+S7DbgdVhKqbXWzkr785TXzlNPw3YVBmf4kfKWpZS6/naa1BO8jU3Sty49uAmDe3TtET6+4oCtS72ZfbBW8ryp8uIVPwMquW/s2upT6ov/yT9vH6G0d7cf+gAAAABJRU5ErkJggg==" />
+                  <radialGradient id="_Radial19" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(87.5133,0.361185,-0.361185,87.5133,677.479,1219.95)">
+                    <stop offset="0" style="stop-color:#fff;stop-opacity:1" />
+                    <stop offset="0.71" style="stop-color:#debc25;stop-opacity:1" />
+                    <stop offset="0.8" style="stop-color:#b98b0a;stop-opacity:1" />
+                    <stop offset="0.87" style="stop-color:#92673e;stop-opacity:1" />
+                    <stop offset="1" style="stop-color:#503734;stop-opacity:1" />
+                  </radialGradient>
+                  <image id="_Image20" width="17px" height="17px"
+                    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABjElEQVQ4jW2UwU7CUBBFz9BSMEaIIDtNdK3x/7/ElUZNlARFAtZYqKXjone0EEgmr3m8OW/mzm2NvZ+7G9BpBYADtcLNzNs5diC5C/SAPpBpbwtsgLXWyszqHYgAiRIHwFhxAqRKXAFzYAF8AaWZbdEBdFsfOAPOgSvgAhipsm/gHXgGHoEpsHR3N7M6VRVdYKjEa+BGoJEuWgMzXdKTNj/A1t09bVUxBi4FuFVFA7VZCtAHKiAHPoECqALS060XrVYmSjIJmwmwAF4UC2ATkEwijhQnAietARyp5TFwChxLBgsfdNR7RMK/RwISE0yVnGiPDo2RwgeFRCy1F6aKM6XOFHquEbUWYAm8taaQqYXQJKfxyUxrHqCArIEPGh9MlFxJg5jOHLgHHiTqSvueqtSNlH6SoJWgY1VbqIIH4E6QTxr7e2pm7u4VjZWnqizXwVP+zTbX3iuNewu1ufMCxqiP1cZQz9FOrhb+TBYv4R+kBUo0wkyrqbpSUQHb9udgByJQeML2/j/4LQH4BSO9n4rUqSWQAAAAAElFTkSuQmCC" />
+                </defs>
+              </svg>
+            </span>
+            <span class="people">
+              <div style="rotate: 60deg; margin:0px; position:relative; bottom: -28px; z-index: 0;">🙋‍♀️</div>
+              <div style="rotate: 90deg; margin:0px; position:relative; z-index: 2">&#128587;</div>
+              <div style="rotate: 105deg; margin:0px; position:relative; bottom: 20px; z-index: 0">&#128587;</div>
+            </span>
+          </div>
+        </div>
+        <div id="vomit-ai-rainbow">
+          <span class="slop_stream"
+            style="background: linear-gradient(180deg, rgb(220, 0, 0), red); -webkit-box-shadow: 2px 2px 20px lab(87.78% -85.59 80.07);"></span>
+          <span class="slop_stream"
+            style="background: linear-gradient(180deg, rgb(222, 222, 0), yellow); -webkit-box-shadow: 2px 2px 20px purple; "></span>
+          <span class="slop_stream" style="background-color: cyan; -webkit-box-shadow: 2px 2px 20px orange;"></span>
+          <span class="slop_stream" style="background-color: purple; -webkit-box-shadow: 2px 2px 20px yellow;"></span>
+          <span class="slop_stream"
+            style="background-color: rgb(255, 157, 0); -webkit-box-shadow: 2px 2px 20px cyan; "></span>
+          <span class="slop_stream"
+            style="background-color: rgb(88, 246, 40); -webkit-box-shadow: 2px 2px 20px red;"></span>
+
+        </div>
+
+
+      </div>
+    </section>
+
+    <section style="--i: 1; --n:2;">
+      <div class="container">
+        <!-- BUFFER FOR PREVIOUS -->
+      </div>
+    </section>
+
+    <section id="section_rh_internet" style="--i: 2; --n:3; background-image: url('/imgs/bg3.jpg');">
+      <div class="container" style="background-color: #81ff04; padding: 50px;">
+        <h2 class="section_heading">Rowan Hale</h2>
+        <h2 class="section_heading">on the internet.</h2>
+      </div>
+    </section>
+
+    <section id="section_author" style="--i: 3; --n:4; z-index: 9999;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <p>An author with over 100 books, ranging a wide set of topics, from self-help, travel, fiction, cooking,
+              historical, memoirs, science-fiction.</p>
+            <p>Available in paperback, hardback and epub. </p>
+          </div>
+          <div id="grid3">
+            <div class="row books" id="author">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+     <section id="section_author" style="--i: 3; --n:4; z-index: 9999;">
+      
+     </section>
+
+<section style="--i: 4; --n:4; z-index: 9999;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <p>With some rave reviews:</p>
+            <hr>
+            <div class="review-section">
+              <p>★★★★★</p>
+              <div class="review">
+                <p>"This book crawled under my skin and stayed there. Gothic, grief-soaked, and terrifying in all the
+                  quietest ways. I'll be thinking about it for years."</p>
+                <p>-Mira Cole, bestselling author of The Rooted Ones</p>
+              </div>
+              <p><span class="note">No evidence "The Rooted Ones" exists or "Mira Cole" being a bestselling author.
+                  Evidence "Mira Cole" was generated by Claude (Anthropic).</span></p>
+            </div>
+
+            <hr>
+
+            <div class="review-section">
+              <p>★★★★★</p>
+              <div class="review">
+                <p>"Equal parts The Haunting of Hill House, Rebecca, and something far more original, The House of
+                  Hollow Graves is a masterwork in mood, dread, and heartbreak."</p>
+                <p>-The Lantern Review </p>
+              </div>
+              <p><span class="note">The Lantern Review is a now closed magazine that focused on the Asian American
+                  poetry community.</span></p>
+            </div>
+
+            <hr>
+
+            <div class="review-section">
+              ★★★★★
+              <div class="review">
+                <p>"A literary ghost story that speaks for the voiceless and punishes those who buried them. Nora
+                  Blackwell is the next great gothic heroine."</p>
+                <p>-Dr. Eliza Wren, The Spectral Book Club</p>
+              </div>
+              <p><span class="note">(Dr Eliza Wren is a character in a book series by USA today bestselling author Ellie
+                  Masters.)</span></p>
+            </div>
+
+            <hr>
+
+            <div class="review-section">
+              ★★★★★
+              <div class="review">
+                <p>"Every generation gets its haunted house novel. This one will echo long after the final page."</p>
+                <p>-Ashvale Chronicle (Digital)</p>
+              </div>
+              <p><span class="note">(Only reference to Ashvale Chronicle is a World building site for roleplaying
+                  games.)</span></p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      </div>
+</section>
+
+<section id="section_amazon_store" style="--i: 4; --n:5; z-index: 999;">
+      <div class="container" style="z-index: 999;">
+        <div class="section-panel">
+          <div class="section-content">
+            <p><span class="date">September 6th, 2023</span><br> Amazon added a question on submission of new content to
+              its marketplace, asking if your content is AI-generated .</p>
+            <p><span class="date">September 18th, 2023</span><br> Amazon introduced a limit allowing only three books
+              per day to be released on on its marketplace.</p>
+
+            <p>Almost all of Rowan Hale's books do not declare they are AI Generated while showing clear signs of being
+              AI generated.</p>
+          </div>
+        </div>
+      </div>
+</section>
+
+
+<section style="--i: 5; --n:5; ">
+      <div class="container">
+        <div class="section-panel">
+        <div class="section-content">
+          <div style="text-align: center;"><img class="album-cover" src="/imgs/rowan_hale/music/a_little_love.jpg">
+          </div>
+          <p>A musician & lyricist with musical styles in Dreamy 1960s Pop & Devotional pop. Rock Ballads with
+            Orchestral Strings and Soaring Falsetto</p>
+          <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay"
+            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2147741229&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+          <div
+            style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;">
+            <a href="https://soundcloud.com/rowanhale" title="Rowan Hale" target="_blank"
+              style="color: #cccccc; text-decoration: none;">Rowan Hale</a> · <a
+              href="https://soundcloud.com/rowanhale/all-i-didnt-say" title="All I Didn’t Say" target="_blank"
+              style="color: #cccccc; text-decoration: none;">All I Didn’t Say</a></div>
+
+          <div class="quotes" style="width: 100%; text-align: justify; font-size: 0.9em;">
+            <blockquote>"A Little Love is more than just a song—it’s a tender exploration of vulnerability, connection,
+              and the small but profound ways love can touch our lives. </blockquote>
+
+            <blockquote>The lyrics capture the essence of intimacy and emotional honesty, encouraging listeners to
+              embrace love in its simplest, most heartfelt form. </blockquote>
+
+            <blockquote> With lines full of empathy, hope, and romantic yearning, Rowan Hale gently guides the listener
+              through the highs and lows of affection, reminding us that even a little love can be enough to heal,
+              inspire, and uplift."</blockquote>
+          </div>
+
+          <div class="photo-grid"
+            style="width: 100%; display:flex; flex-grow: 1; flex-direction: row; justify-content: space-evenly; flex-wrap: wrap;">
+            <div><img style="max-width:100%; max-height:100%;" src="/imgs/rowan_hale/music/ymNJKRmGkPc-HD.jpg" /></div>
+            <div><img style="max-width:100%; max-height:100%;" src="/imgs/rowan_hale/music/zKLkTLcdnJ8-HD.jpg" /></div>
+            <div><img style="max-width:100%; max-height:100%;" src="/imgs/rowan_hale/music/ZkbM_Irrhl0-HD.jpg" /></div>
+            <div><img style="max-width:100%; max-height:100%;" src="/imgs/rowan_hale/music/8z3fqywPwn8-HD.jpg" /></div>
+            <div><img style="max-width:100%; max-height:100%;" src="/imgs/rowan_hale/music/MH_YyV2-OOE-HD.jpg" /></div>
+            <div><img style="max-width:100%; max-height:100%;" src="/imgs/rowan_hale/music/J1H8uHfqXdM-HD.jpg" /></div>
+          </div>
+        </div>
+        </div>
+</section>
+
+<section style="--i: 5; --n:6; ">
+      <div class="container">
+         <div class="section-panel">
+        <div class="section-content">
+
+
+          <p>Rowan Hale Features on Spotify:</p>
+          <div>
+            <div style="width:100%; text-align:center; line-height: 1em;"><img
+                style="max-width: 100%; max-height: 100%;" src="/imgs/rowan_hale/spotify/rowan_hale_square.png">
+              <figcaption>99.9% confidence AI generated by OpenAI's GPT Image 1.5 Model</figcaption>
+            </div>
+
+            Rowan Hale is a 32-year-old singer-songwriter from the Netherlands who blends folk storytelling with pop,
+            reggae, and rap influences. His music moves effortlessly between genres, guided by honest lyrics, warm
+            melodies, and a deep love for experimentation. Always curious and emotionally grounded, Rowan writes songs
+            that feel personal, reflective, and open-hearted. {Al}
+          </div>
+
+
+          <div class="album-grid">
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Lemon Tree Weather.png">
+              <figcaption>Lemon Tree Weather</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Back When We Could Fly.png">
+              <figcaption>Back When We Could Fly</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Tractor Town.png">
+              <figcaption>Tractor Town</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Lantern In My Window.png">
+              <figcaption>Lantern In My Window</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Zonneschijn Op De Gracht.png">
+              <figcaption>Zonneschijn Op De Gracht</figcaption>
+            </div>
+
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/One Big Song.png">
+              <figcaption>One Big Song</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Ocean Blue Eyes.png">
+              <figcaption>One Big Song</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Sum It Up.png">
+              <figcaption>One Big Song</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Father And A Friend.png">
+              <figcaption>Father And A Friend</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Can't Get Up Today.png">
+              <figcaption>Can't Get Up Today</figcaption>
+            </div>
+
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/My Valentine's Day.png">
+              <figcaption>My Valentine's Day</figcaption>
+            </div>
+
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Drowning In My Head.png">
+              <figcaption>Drowning In My Head</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/I'm The Map.png">
+              <figcaption>I'm The Map</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Happy, Happy, Happy.png">
+              <figcaption>Happy, Happy, Happy</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/King For A Minute.png">
+              <figcaption>King For A Minute</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Wave After Wave.png">
+              <figcaption>Wave After Wave</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Than You, Younger Me.png">
+              <figcaption>Than You, Younger Me</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Full Court Life.png">
+              <figcaption>Full Court Life</figcaption>
+            </div>
+
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Riff Like Thunder.png">
+              <figcaption>Riff Like Thunder</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Cartoon.png">
+              <figcaption>Cartoon.png</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/One Voice, One Sky.png">
+              <figcaption>One Voice, One Sky</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/The Clock.png">
+              <figcaption>The Clock</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Play It Anyway.png">
+              <figcaption>Play It Anyway</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/Cruise Control Kinda Love.png">
+              <figcaption>Cruise Control Kinda Love</figcaption>
+            </div>
+            <div class="album-cover"><img src="/imgs/rowan_hale/spotify/All As One.png">
+              <figcaption>All As One</figcaption>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+      </div>
+</section>
+
+<section style="--i: 6; --n:6; transform: translate(0px, 0px);">
+   <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            A Researcher with a published paper:
+
+            <p>Solayne Mira, and Rowan Hale. "Integrating Machine Learning Forecasting and Derivatives-Based Risk Hedging for Multi-Channel Supply Chain Inventory Optimization Under Geopolitical Disruption." (2025).</p>
+            <p>Obafemi Awolowo University</p>
+          </div>
+        </div>
+    </div>
+</section>
+
+    <section style="--i: 6; --n:7; transform: translate(0px, 0px);">
+
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 3vh; left: 42vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-cyan" style="width: 0.5vw; height: 0.5vw; opacity: 0.558497;">
+        </div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 40vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate3d(0px, 120px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-cyan"
+          style="width: 1.18893vw; height: 1.1vw; opacity: 0.558497;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 86vh; left: 52vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-cyan" style="width: 1.0vw; height: 1.1vw; opacity: 0.558497;">
+        </div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 23vh; left: 6vw; translate: none; rotate: none; scale: none; --fy: 4; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-cyan" style="width: 0.8vw; height: 0.8vw; opacity: 0.558497;">
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+
+            <span style="text-align: center; width: 100%">
+              <figure>
+
+                <img style="width: 90%" class="profile person-photo" src="/imgs/ceo_rowan_hale.jpeg">
+                <figcaption>~90% probability Generated by AI (Diffusion Model).</figcaption>
+
+                <h4>CEO & founder of Smart Sensed House.<br> A UK, Home improvement business.</h4>
+              </figure>
+            </span>
+
+            <div style="display:flex; gap: 40px; margin: 50px; flex-wrap: wrap;  justify-content: center;">
+              <img src="/imgs/rowan_hale/smartsensedhouse_logo.jpg" class="profile" />
+              <p><i>“Selling smart home devices to make your home secure.”</i></p>
+            </div>
+
+
+            <div style="display:flex; gap: 10px; width: 100%; flex-wrap: wrap; justify-content: center; ">
+
+
+              <img  src="/imgs/rowan_hale/company/04.jpg" style="max-width:100%; max-height:100%; border: 1px solid #c2c2c2;" />
+
+              <img  src="/imgs/rowan_hale/company/01.jpg" style="max-width:100%; max-height:100%; border: 1px solid #c2c2c2" />
+
+              <img  src="/imgs/rowan_hale/company/05.jpg" style="max-width:100%; max-height:100%; border: 1px solid #c2c2c2;" />
+              <img  src="/imgs/rowan_hale/company/02.jpg" style="max-width:100%; max-height:100%; border: 1px solid #c2c2c2;" />
+
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+    <section style="--i: 7; --n:7; transform: translate(0px, 0px);">
+
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 3vh; left: 42vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-cyan" style="width: 0.5vw; height: 0.5vw; opacity: 0.558497;">
+        </div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 40vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate3d(0px, 120px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-cyan"
+          style="width: 1.18893vw; height: 1.1vw; opacity: 0.558497;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 86vh; left: 52vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-cyan" style="width: 1.0vw; height: 1.1vw; opacity: 0.558497;">
+        </div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 23vh; left: 6vw; translate: none; rotate: none; scale: none; --fy: 4; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-cyan" style="width: 0.8vw; height: 0.8vw; opacity: 0.558497;">
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <span style="text-align: center; width: 100%">
+              <figure>
+                <img style="width:90%" class="person-photo" src="/imgs/rowan_hale/podcast/rowan_hale.jpg">
+                <figcaption>97% confidence AI Generated</figcaption>
+            </span>
+            <h4>Podcast Host & Creator of the AI Desk</h4>
+            </figure>
+            </span>
+
+
+            <div class="two-column">
+              <img style="border-radius:50%; align-self: center;" alt="The AI DESK"
+                src="/imgs/rowan_hale/podcast/the_ai_desk.jpeg" />
+              <p>Power, infrastructure, and the strategic shifts shaping the next decade of AI. <span
+                  class="highlight">Rowan Hale</span> and Naya Brooks cut through the hype to show you who's really in
+                control.</p>
+            </div>
+
+            <blockquote class="quote">
+              "AI is quietly restructuring business, institutions, and global platforms — and most people haven't
+              noticed yet."
+            </blockquote>
+
+            <div>
+              <video controls>
+                <source src="/imgs/rowan_hale/podcast/the_ai_desk.mp4" type="video/mp4">
+              </video>
+              <figcaption>99% confidence AI Generated. Artifacts in eye reflections and eyebrows.</figcaption>
+            </div>
+
+            <h4>Episodes available on Apple Podcasts, Spotify, Youtube, Overcast & Pocket Casts.</h4>
+
+            <div style="display:flex; gap: 10px; width: 100%; flex-wrap: wrap; justify-content: center; ">
+              <img width="378px" src="/imgs/rowan_hale/podcast/ep0023.png" style="border: 1px solid #c2c2c2;" />
+              <img width="378px" src="/imgs/rowan_hale/podcast/ep0024.png" style="border: 1px solid #c2c2c2;" />
+              <img width="378px" src="/imgs/rowan_hale/podcast/ep0025.png" style="border: 1px solid #c2c2c2;" />
+              <img width="378px" src="/imgs/rowan_hale/podcast/ep0026.png" style="border: 1px solid #c2c2c2;" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section style="--i: 7; --n:7">
+      <div class="section-panel" style="border-left: 0px; border-right: 0px;">
+        <div class="section-content" style="text-align: center;">
+          <h4>Featured in countless stories on YouTube.</h4>
+        </div>
+        <div id="youtube" class="gridy"></div>
+      </div>
+    </section>
+
+
+    <section style="--i: 7; --n: 7; background-color: #000;">
+      <div class="rowan-faces"
+        style=" display: grid; gap: 1rem; width:100%; padding:15px; background-color: #000; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));">
+
+        <img src="/imgs/rowan_hale/faces/05.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/03_33.jpg" />
+        <img src="/imgs/rowan_hale/faces/03_34.jpg" />
+        <img src="/imgs/rowan_hale/faces/03_43.jpg" />
+        <img src="/imgs/rowan_hale/faces/03_49.jpg" />
+        <img src="/imgs/rowan_hale/faces/03_61.jpg" />
+        <img src="/imgs/rowan_hale/faces/77.jpg" />
+        <img src="/imgs/rowan_hale/faces/03_69.jpg" />
+
+
+        <img src="/imgs/rowan_hale/faces/01_14.jpg" />
+        <img src="/imgs/rowan_hale/faces/01_15.jpg" />
+        <img src="/imgs/rowan_hale/faces/01_16.jpg" />
+        <img src="/imgs/rowan_hale/faces/01_17.jpg" />
+        <img src="/imgs/rowan_hale/faces/01_18.jpg" />
+        <img src="/imgs/rowan_hale/faces/01_19.jpg" />
+        <img src="/imgs/rowan_hale/faces/01_21.jpg" />
+        <img src="/imgs/rowan_hale/faces/01_22.jpg" />
+
+
+
+
+
+        <img src="/imgs/rowan_hale/faces/04_70.jpg" />
+        <img src="/imgs/rowan_hale/faces/04_71.jpg" />
+        <img src="/imgs/rowan_hale/faces/04_73.jpg" />
+        <img src="/imgs/rowan_hale/faces/04_77.jpg" />
+
+
+
+
+
+
+        <img src="/imgs/rowan_hale/faces/51.jpg" />
+
+
+
+        <img src="/imgs/rowan_hale/faces/03.jpg" />
+        <img src="/imgs/rowan_hale/faces/01.jpg" />
+        <img src="/imgs/rowan_hale/faces/10.jpg" />
+        <img src="/imgs/rowan_hale/faces/24.jpg" />
+
+
+        <img src="/imgs/rowan_hale/faces/27.jpg" />
+        <img src="/imgs/rowan_hale/faces/44.jpg" />
+        <img src="/imgs/rowan_hale/faces/41.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/32.jpg" />
+        <img src="/imgs/rowan_hale/faces/39.jpg" />
+        <img src="/imgs/rowan_hale/faces/52.jpg" />
+
+
+        <img src="/imgs/rowan_hale/faces/23.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/06.jpg" />
+        <img src="/imgs/rowan_hale/faces/25.jpg" />
+        <img src="/imgs/rowan_hale/faces/48.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/38.jpg" />
+        <img src="/imgs/rowan_hale/faces/64.jpg" />
+        <img src="/imgs/rowan_hale/faces/75.jpg" />
+        <img src="/imgs/rowan_hale/faces/66.jpg" />
+
+
+        <img src="/imgs/rowan_hale/faces/67.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/35.jpg" />
+        <img src="/imgs/rowan_hale/faces/56.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/60.jpg" />
+
+        <!---->
+
+
+        <img src="/imgs/rowan_hale/faces/58.jpg" />
+        <img src="/imgs/rowan_hale/faces/59.jpg" />
+        <img src="/imgs/rowan_hale/faces/08.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/05_02.jpg" />
+        <img src="/imgs/rowan_hale/faces/05_04.jpg" />
+        <img src="/imgs/rowan_hale/faces/20.jpg" />
+        <img src="/imgs/rowan_hale/faces/50.jpg" />
+        <img src="/imgs/rowan_hale/faces/45.jpg" />
+
+
+        <img src="/imgs/rowan_hale/faces/09.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/11.jpg" />
+        <img src="/imgs/rowan_hale/faces/12.jpg" />
+        <img src="/imgs/rowan_hale/faces/13.jpg" />
+
+
+
+
+        <img src="/imgs/rowan_hale/faces/26.jpg" />
+
+
+        <img src="/imgs/rowan_hale/faces/07.jpg" />
+
+
+
+        <img src="/imgs/rowan_hale/faces/36.jpg" />
+        <img src="/imgs/rowan_hale/faces/37.jpg" />
+
+
+        <img src="/imgs/rowan_hale/faces/40.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/42.jpg" />
+
+
+
+
+        <img src="/imgs/rowan_hale/faces/46.jpg" />
+        <img src="/imgs/rowan_hale/faces/47.jpg" />
+
+
+
+
+        <img src="/imgs/rowan_hale/faces/55.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/57.jpg" />
+
+
+
+        <img src="/imgs/rowan_hale/faces/62.jpg" />
+        <img src="/imgs/rowan_hale/faces/63.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/65.jpg" />
+
+
+        <img src="/imgs/rowan_hale/faces/68.jpg" />
+        <img src="/imgs/rowan_hale/faces/72.jpg" />
+        <img src="/imgs/rowan_hale/faces/74.jpg" />
+
+        <img src="/imgs/rowan_hale/faces/76.jpg" />
+
+
+        <img src="/imgs/rowan_hale/faces/02_28.jpg" />
+        <img src="/imgs/rowan_hale/faces/02_29.jpg" />
+        <img src="/imgs/rowan_hale/faces/02_30.jpg" />
+        <img src="/imgs/rowan_hale/faces/02_31.jpg" />
+        <img src="/imgs/rowan_hale/faces/02_53.jpg" />
+        <img src="/imgs/rowan_hale/faces/02_54.jpg" />
+
+
+
+      </div>
+    </section>
+
+
+
+
+
+
+    <section style="--i: 7; --n:8;  transform: translate(0px, 0px);" class="splatters">
+
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 3vh; left: 42vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-blue" style="width: 0.5vw; height: 0.5vw; opacity: 0.558497;">
+        </div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 40vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate3d(0px, 120px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-blue"
+          style="width: 1.18893vw; height: 1.1vw; opacity: 0.558497;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 86vh; left: 52vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-blue" style="width: 1.0vw; height: 1.1vw; opacity: 0.558497;">
+        </div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 23vh; left: 6vw; translate: none; rotate: none; scale: none; --fy: 4; transform: translate(0px, 0px); opacity: 0.7984;">
+        <div class="scroll-smooth-effects__circle-inner-blue" style="width: 0.8vw; height: 0.8vw; opacity: 0.558497;">
+        </div>
+      </div>
+
+      <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+        style="top: 160.090099vh; left: 80.671624vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.9984;">
+        <div class="scroll-smooth-effects__circle-inner-blue"
+          style="width: 1.18893vw; height: 1.18893vw; opacity: 0.558497;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="6.1271157894736845"
+        style="top: 164.09677vh; left: 30.507408vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.9992;">
+        <div class="scroll-smooth-effects__circle-inner-blue"
+          style="width: 1.31769vw; height: 1.31769vw; opacity: 0.612712;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="7.716673684210527"
+        style="top: 193.279339vh; left: 79.723616vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.9997;">
+        <div class="scroll-smooth-effects__circle-inner-blue"
+          style="width: 1.69521vw; height: 1.69521vw; opacity: 0.771667;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="5.963284210526316"
+        style="top: 132.98441vh; left: 34.08447vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.9999;">
+        <div class="scroll-smooth-effects__circle-inner-blue"
+          style="width: 1.27878vw; height: 1.27878vw; opacity: 0.596328;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="1.0568842105263159"
+        style="top: 90.049594vh; left: 46.561779vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 1;">
+        <div class="scroll-smooth-effects__circle-inner-blue"
+          style="width: 0.11351vw; height: 0.11351vw; opacity: 0.105688;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="4.018357894736843"
+        style="top: 176.830975vh; left: 77.429824vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 1;">
+        <div class="scroll-smooth-effects__circle-inner-blue"
+          style="width: 0.81686vw; height: 0.81686vw; opacity: 0.401836;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="3.270526315789474"
+        style="top: 134.41513vh; left: 49.880974vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 1;">
+        <div class="scroll-smooth-effects__circle-inner-blue"
+          style="width: 0.63925vw; height: 0.63925vw; opacity: 0.327053;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="3.511747368421053"
+        style="top: 136.182031vh; left: 22.03248vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px); opacity: 1;">
+        <div class="scroll-smooth-effects__circle-inner-blue"
+          style="width: 0.69654vw; height: 0.69654vw; opacity: 0.351175;"></div>
+      </div>
+      <div class="scroll-smooth-effects__circle" data-scale="2.6235368421052634"
+        style="top: 70.950005vh; left: 22.42595vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px); opacity: 1;">
+        <div class="scroll-smooth-effects__circle-inner-blue"
+          style="width: 0.48559vw; height: 0.48559vw; opacity: 0.262354;"></div>
+      </div>
+
+      <div class="">
+        <div class="">
+          <h1 class="section_heading">The Power of a name lies with its namer.</h1>
+          <BR /><BR />
+          <h1 class="section_heading"> Who named "Rowan Hale"?</h1>
+
+        </div>
+        <div id="youtube" class="gridy"></div>
+
+
+
+      </div>
+    </section>
+
+
+    <section style="--i: 8; --n:9; ">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <p>When asking a Large Language Model to generate a person and come up with a name it tends to consistently
+              pick the same names.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section style="--i: 9; --n:9; background-color: #f7f7f7; background-image: none;">
+      <div class="container">
+        <div class="section_llm_question">
+          <p>Can you write a biography of someone who is disabled, in the first person? Please include several interests
+            the person might have, their name, where they are from, and other helpful information. Please start your
+            response with "Here is a biography in the first person: Hello, my name is</p>
+        </div>
+      </div>
+    </section>
+
+    <section  style="--i: 9;--n:9; background-color: #f7f7f7; background-image: none;">
+      <div class="container">
+        <img class="inline" src="/imgs/spark.svg" alt="AI generated response">
+        <div class="section_llm_answer">
+          <p>Here is a biography in the first person: Hello, my name is Rowan Hale. </p>
+          <p>I roll through life in a graphite-grey wheelchair that squeaks only when it’s making a point. I’m from
+            Bristol, wedged between the harbourside cafés and the grim old warehouses that pretend they’re art studios.
+            I’m a hardware tinkerer by impulse, a jazz-drummer by obsession, and a night-cyclist—hand-cycle,
+            technically—by stubborn refusal to stay indoors.</p>
+          <p>I design adaptive gadgets, half for work and half because I hate being told something “can’t be made
+            accessible.” I paint tiny watercolour cityscapes on scrap paper, collect vintage puzzle boxes, and broadcast
+            a low-fi podcast about the strange moods of urban architecture.</p>
+          <p>My days orbit around movement—sometimes fast, sometimes deliberate. My wheels don’t define me, but they
+            shape my angles on the world: closer to kerbs, closer to conversations, closer to the small stories most
+            people step clean over.</p>
+
+
+
+        </div>
+      </div>
+    </section>
+
+
+    <section style="--i: 9; background-image: url('/imgs/30_v3.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black);">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <p>It turns out names generated by specific LLMs are <b>fairly consistent</b> AND <b>distinct</b>.</p>
+
+            <p>In testing only a single name occurs across different LLMs:</p>
+            <p class="name-text">"Maya Patel"</p>
+
+            <p>Lets see what each AI company thinks is a good name.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="--n: 10; background: black; color: white; ">
+      <div class="container">
+
+        <div class="name-profile">
+          <div class="lead">
+            <h2>ANTHROPIC</h2>
+            <h4>Claude Sonnet 4.5</h4>
+          </div>
+          <span class="slop-name">MARCUS CHEN</span> &bull;
+          <span class="slop-name">AISHA OKONKWO</span> &bull;
+          <span class="slop-name">JAMIE ROUSSEAU</span> &bull;
+          <span class="slop-name">MAYA PATEL</span>
+        </div>
+
+        <div class="name-profile">
+          <div class="lead">
+            <h2>GOOGLE</h2>
+            <h4>Gemini 3</h4>
+          </div>
+          <span class="slop-name">ELIAS VANCE</span> &bull;
+          <span class="slop-name">MAYA CHEN</span> &bull;
+          <span class="slop-name">ALEX WILLIAMS</span> &bull;
+          <span class="slop-name">ALEX CHEN</span> &bull;
+          <span class="slop-name">ELARA VANCE</span> &bull;
+          <span class="slop-name">MAYA PATEL</span>
+        </div>
+
+        <div class="name-profile">
+          <div class="lead">
+            <h2>DEEPSEEK</h2>
+            <h4>V3.2</h4>
+          </div>
+          <span class="slop-name">LENA VOGEL</span> &bull;
+          <span class="slop-name">ARIS THORNE</span> &bull;
+          <span class="slop-name">AISHA PATEL</span> &bull;
+          <span class="slop-name">LEO CHEN</span>
+        </div>
+
+        <div class="name-profile">
+          <div class="lead">
+            <h2>MICROSOFT</h2>
+            <h4>Co-pilot - GPT5.1</h4>
+          </div>
+          <span class="slop-name">ALEX RIVERA</span> &bull;
+          <span class="slop-name">MAYA THOMPSON</span> &bull;
+          <span class="slop-name">DANIEL BROOKS</span> &bull;
+          <span class="slop-name">SARAH MITCHELL</span> &bull;
+          <span class="slop-name">JAMES CARTER</span> &bull;
+          <span class="slop-name">OLIVIA HARPER</span> &bull;
+          <span class="slop-name">ETHAN CLARKE</span>
+        </div>
+
+        <div class="name-profile">
+          <div class="lead">
+            <h2>META</h2>
+            <h4>LLama 3</h4>
+          </div>
+          <span class="slop-name">MAYA RAMOS</span> &bull;
+          <span class="slop-name">EMILY WILSON</span> &bull;
+          <span class="slop-name">EMILY CHEN</span>
+        </div>
+
+        <div class="name-profile">
+          <div class="lead">
+            <h2>Alibaba</h2>
+            <h4>QWQ</h4>
+          </div>
+          <span class="slop-name">MAYA JOHNSON</span> &bull;
+          <span class="slop-name">EMMA TAYLOR</span> &bull;
+          <span class="slop-name">EMMA WILSON</span> &bull;
+          <span class="slop-name">EMMA JOHNSON</span> &bull;
+        </div>
+
+
+
+        <div class="name-profile">
+          <div class="lead">
+            <h2>OPENAI</h2>
+            <h4>GPT 5</h4>
+          </div>
+          <span class="slop-name highlight">ROWAN HALE</span> &bull;
+          <span class="slop-name">MARIAH JENSEN</span> &bull;
+          <span class="slop-name">ROWAN CALDER</span> &bull;
+          <span class="slop-name">MARA ELLISON</span> &bull;
+          <span class="slop-name">CLARA JENSEN</span> &bull;
+          <span class="slop-name">MAREN ELLIS</span> &bull;
+          <span class="slop-name">AVERY HOLT</span>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section 
+      style="--i: 10; --n:11; background-image: url('/imgs/30_v3.png'), linear-gradient(black, hsl(330, 100%, 51%));">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content" id="garbage-marker">
+            <p>Matching a name like <span class="highlight">Rowan Hale</span> to the list gives us a pretty good
+              indicator of which LLM and company was used to generate the content.</p>
+
+            <p>The flood of AI Slop we have discovered, is likely to have been generated using OpenAI and ChatGPT.
+              When somebody generates AI SLOP and does not bother to choose a name, it will default to a common name for
+              that LLM.</p>
+
+            <p>OpenAI's design of ChatGPT led it to pick "Rowan Hale" and as a consequence
+              allowing people to flood the internet with "Rowan Hale" AI Slop. </p>
+
+            <p>ChatGpt's act of naming, has turned Rowan Hale from the name of a person, into a marker of <b>low
+                quality</b>, <b>garbage</b> on the internet.</p>
+
+          </div>
+
+        </div>
+        <div class="transition"
+          style="position: absolute; width: 100%; z-index: 0; text-align: center; left:0px; height: 265vh;">
+          <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+          <svg width="100%" height="100%" viewBox="0 0 736.706 2634.5154" version="1.1" xml:space="preserve"
+            style="clip-rule:evenodd;fill-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.5" id="svg6"
+            sodipodi:docname="sea_down3.svg" inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
+            xmlns:svg="http://www.w3.org/2000/svg">
+            <defs id="defs6" />
+            <sodipodi:namedview id="namedview6" pagecolor="#ffffff" bordercolor="#000000" borderopacity="0.25" />
+            <path class="slop-rainbow"
+              d="m 606.506,0.115 c 0,26.687 -0.22,28.51 0,36.91 0.987,37.713 16.689,74.088 25.808,111.206 21.057,85.702 41.892,171.383 41.892,255.09 0,126.909 -71.836,259.274 -71.836,373.92 0,107.358 71.836,206.602 71.836,313.959 0,115.821 -71.836,259.787 -71.836,380.965 0,117.827 71.836,228.278 71.836,346.105 0,117.969 -71.836,238.787 -71.836,361.713 0,130.236 44.828,286.76 69.427,431.423 0.827,4.86 2.409,15.092 2.409,22.78"
+              style="fill:none;stroke:#ff0026;stroke-width:125px" id="path1" />
+            <path class="slop-rainbow"
+              d="m 484.316,0 c 0,26.687 -0.219,28.51 0,36.91 0.987,37.712 16.689,74.088 25.809,111.206 21.056,85.702 41.891,171.383 41.891,255.09 0,126.908 -71.835,259.273 -71.835,373.92 0,107.357 71.835,206.602 71.835,313.959 0,115.821 -71.835,259.786 -71.835,380.965 0,117.827 71.835,228.278 71.835,346.105 0,117.969 -71.835,238.787 -71.835,361.712 0,130.237 44.827,286.761 69.426,431.423 0.827,4.861 2.409,15.093 2.409,22.781"
+              style="fill:none;stroke:#fff600;stroke-width:125px" id="path2" />
+            <path class="slop-rainbow"
+              d="m 381.999,0.354 c 0,26.687 -0.22,28.51 0,36.91 0.986,37.713 16.688,74.089 25.808,111.206 21.056,85.702 41.891,171.383 41.891,255.091 0,126.908 -71.835,259.273 -71.835,373.919 0,107.358 71.835,206.602 71.835,313.959 0,115.821 -71.835,259.787 -71.835,380.965 0,117.827 71.835,228.278 71.835,346.105 0,117.97 -71.835,238.787 -71.835,361.713 0,130.237 44.827,286.761 69.427,431.423 0.826,4.86 2.408,15.092 2.408,22.78"
+              style="fill:none;stroke:#00daff;stroke-width:125px" id="path3" />
+            <path class="slop-rainbow"
+              d="m 296.444,0.256 c 0,26.687 -0.22,28.51 0,36.91 0.987,37.713 16.689,74.089 25.808,111.206 21.056,85.702 41.891,171.383 41.891,255.091 0,126.908 -71.835,259.273 -71.835,373.919 0,107.358 71.835,206.602 71.835,313.959 0,115.821 -71.835,259.787 -71.835,380.965 0,117.827 71.835,228.278 71.835,346.105 0,117.97 -71.835,238.787 -71.835,361.713 0,130.237 44.828,286.761 69.427,431.423 0.826,4.86 2.408,15.092 2.408,22.78"
+              style="fill:none;stroke:#7a00ff;stroke-width:125px" id="path4" />
+            <path class="slop-rainbow"
+              d="m 173.754,0.147 c 0,26.687 -0.22,28.51 0,36.91 0.987,37.712 16.689,74.088 25.808,111.206 21.056,85.702 41.891,171.383 41.891,255.09 0,126.908 -71.835,259.273 -71.835,373.92 0,107.357 71.835,206.602 71.835,313.959 0,115.821 -71.835,259.786 -71.835,380.965 0,117.827 71.835,228.278 71.835,346.105 0,117.969 -71.835,238.787 -71.835,361.712 0,130.237 44.828,286.761 69.427,431.423 0.827,4.861 2.408,15.093 2.408,22.781"
+              style="fill:none;stroke:#ff7e00;stroke-width:125px" id="path5" />
+            <path class="slop-rainbow"
+              d="m 66.636,0.387 c 0,26.687 -0.22,28.509 0,36.91 0.986,37.712 16.689,74.088 25.808,111.206 21.056,85.702 41.891,171.383 41.891,255.09 0,126.908 -71.835,259.273 -71.835,373.92 0,107.357 71.835,206.601 71.835,313.959 0,115.821 -71.835,259.786 -71.835,380.965 0,117.827 71.835,228.277 71.835,346.105 0,117.969 -71.835,238.787 -71.835,361.712 0,130.237 44.827,286.761 69.427,431.423 0.826,4.86 2.408,15.093 2.408,22.781"
+              style="fill:none;stroke:#23ff00;stroke-width:125px" id="path6" />
+          </svg>
+
+        </div>
+      </div>
+    </section>
+
+    <section style="--i: 11; --n:12;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <p>A warning of AI generated slop.</p>
+
+            <div class="two-column"
+              style="border: 1px solid #d1d1d1; border-radius: 2px; padding-left: 50px; padding-right: 50px; padding-top: 20px; padding-bottom: 20px; background-color: #fff; display: flex; align-items: center;">
+              <div>
+                <div style="font-size: 0.5em; color: #605f5f; align-items: center;"><img
+                    style="width:24px; vertical-align: middle; margin-right: 10px;"
+                    src="/imgs/communityIcon.png">r/systemsthinking</div>
+
+
+                <h4 style="margin-bottom:15px; margin-top: 15px; font-weight: 400;">The Collective Nervous System |
+                  Rowan Hale | Substack</h4>
+                <span style="font-size: 0.85em; line-height: 20px; font-family: ;">I’ve been exploring whether humanity
+                  can be understood as a kind of distributed nervous system, not as poetry, but as a functional model
+                  for how information, stress, and behavior move through large groups.</span>
+              </div>
+              <div><img src="/imgs/collective-nervous-system.png" </div>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+
+
+    <section style="--i: 12 ;--n:13;">
+      <div class="container">
+        <h1 class="section_heading" style="font-size: clamp(4.9rem, 12vmin, 7rem)">ROWAN</h1>
+        <h1 class="section_heading" style="font-size: clamp(4.9rem, 12vmin, 7rem)">HALE</h1>
+
+      </div>
+    </section>
+
+    <section style="--i: 13; --n:14;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+
+
+            <p>Why does ChatGPT pick Rowan Hale?</p>
+
+            <p>This is a difficult question and answering it requires two things that don't yet exist.
+            <ol>
+              <li>Complete transparency of OpenAIs training data and process.</li>
+              <li>Complete explainability of what happens in 175 billion of parameters as an LLM builds an response.
+              </li>
+            </ol>
+            </p>
+
+
+            <p>So, we have to make some educated guesses.</p>
+
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="section_likelyname" style="--i: 14; --n:15;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <p>Asking an LLM to generate Slop, frequently requires it to make-up a convincing random person with a human
+              sounding name.</p>
+
+            <p>A task of selecting the most likely name from all the human names seen in the training data.</p>
+
+            <p>We see two types of most "likely names"</p>
+
+
+
+
+
+          </div>
+        </div>
+
+        <div style="position: absolute; width: 100%; z-index:0; text-align: center; left:0px;  ">
+          <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+          
+
+        </div>
+
+      </div>
+
+
+    </section>
+
+
+    <section style="--i: 15; --n:16; z-index: 9;">
+      <div class="container-spread">
+        <div class="section-panel" style="display: flex; flex-direction: column;">
+
+          <div class="section-content" style="flex: 1;">
+            <div>
+              <h2>1. Famous</h2>
+              <p>Celebrities or characters that feature in fiction.</p>
+
+              <p>LLM predicting what follows "Rowan"</p>
+
+              <div class="llm_answer">
+                <p><img class="inline" src="/imgs/spark.svg" alt="AI generated response">[At][kinson]</p>
+              </div>
+              <p class="footnote">British Actor</p>
+
+              <div class="llm_answer">
+                <p><img class="inline" src="/imgs/spark.svg" alt="AI generated response">[Williams]</p>
+              </div>
+              <p class="footnote">Former Archbishop of Canterbury, Boxer</p>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="section-panel" style="display: flex; flex-direction: column;">
+          <div class="section-content" style="flex: 1;">
+
+
+            <div>
+              <h2>2. Madeup</h2>
+              <p>Popular names in the training that are convincing as made-up names.</p>
+
+              <p>LLM predicting what follows "Rowan" given instructions to makeup a name:</p>
+
+              <div class="llm_answer">
+                <p><img class="inline" src="/imgs/spark.svg" alt="AI generated response"> [Thompson]</p>
+              </div>
+              <div class="llm_answer">
+                <p><img class="inline" src="/imgs/spark.svg" alt="AI generated response"> [Jenkins]</p>
+              </div>
+              <div class="llm_answer">
+                <p><img class="inline" src="/imgs/spark.svg" alt="AI generated response"> [James]</p>
+              </div>
+
+              <!--
+
+          <div class="llm_answer">
+            <p><img class="inline" src="/imgs/spark.svg" alt="AI generated response"> [Black]</p>
+          </div>
+          <div class="llm_answer">
+            <p><img class="inline" src="/imgs/spark.svg" alt="AI generated response"> [Everett]</p>
+          </div>
+        -->
+
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+      </div>
+      </div>
+      </div>
+    </section>
+
+
+
+
+    <section style="--i: 16; --n:17;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <p>Even when directed towards made-up names LLMs are still far from random. It cannot escape its training.
+            </p>
+
+            <div>
+              <h4 style="margin-bottom: 0px;">Loudest names</h4>
+              <img src="/imgs/hr_drip2.png" width="100%">
+              <p>Names have trends and LLMs surface dominant trends in the training data. The names present in the
+                training data are a reflection of cultures that have dominated the written word. </p>
+
+              <h4 style="margin-bottom: 0px;">Convincing to who?</h4>
+              <img src="/imgs/hr_drip2.png" width="100%">
+              <p>When building an answer the LLM is constructing a statistically plausible person's name to satisfy the
+                prompter. Who are these systems designed to satisfy? Who is paying for this product? What is a good
+                name? </p>
+
+              <h4 style="margin-bottom: 0px;">Feedback</h4>
+              <img src="/imgs/hr_drip2.png" width="100%">
+              <p>Users and Data workers provide feedback on what constitutes good answers, which influences answers
+                provided.</p>
+              <p>LLM companies try and fail to suppress the biases and toxicity in the training data they choose to use.
+              </p>
+
+              <p>Whose voices have the most influence in shaping a good answer?</p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section style="--i: 17; --n:19;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <h1>Loudest Names</h1>
+
+            <p>While we cannot see how frequently Rowan Hale occurs in OpenAI's closed training data,
+              we can make some estimates looking at large open training datasets like Redpanda (1TB).</p>
+
+            <p>Rowan Hale does occur in these datasets but infrequently compared to other AI Slop names we've seen.</p>
+
+            <ul>
+              <li>James Carter <span class="freq">(3,811)</span></li>
+              <li>Alex Williams <span class="freq">(2,596)</span></li>
+              <li>Emily Wilson <span class="freq">(1,717)</span></li>
+              <li>Sarah Mitchell <span class="freq">(981)</span></li>
+              <li>Alex Chen <span class="freq">(472)</span></li>
+              <li>Alex Rivera <span class="freq">(754)</span></li>
+              <li>Daniel Brooks <span class="freq">(683)</span></li>
+              <li><span class="highlight">Rowan Hale</span> <span class="freq">(2)</span></li>
+            </ul>
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section style="--i: 19; --n:20;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <h1>Rowan or Hale</h1>
+
+            Looking separately at Rowan and Hale we can see they occur frequently in the data but again not as
+            frequently as other names.
+
+            <ul>
+              <li>Smith <span class="freq">(29,827,357)</span></li>
+              <li>Johnson <span class="freq">(19,391,216)</span></li>
+              <li>Sarah <span class="freq">(15,390,453)</span></li>
+              <li>Maya <span class="freq">(6,734,324)</span></li>
+              <li>Thompson <span class="freq">(6,480,301)</span></li>
+              <li>Mitchell <span class="freq">(5,873,585)</span></li>
+              <li><span class="highlight">Hale</span> <span class="freq">(4,988,488)</span></li>
+              <li>Patel <span class="freq">(2,863,391)</span></li>
+              <li>Elias <span class="freq">(2,401,250)</span></li>
+              <li>Vance <span class="freq">(1,653,548)</span></li>
+              <li><span class="highlight">Rowan</span> <span class="freq">(1,094,346)</span></li>
+            </ul>
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+
+
+    <section style="--i: 20; --n:19;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <h1>Token size</h1>
+
+            <p>LLMs work with tokens rather than words, multiple tokens can form a word.</p>
+
+            <p>The number of tokens used to represent a name reflects how frequent that name is across the vocabary of
+              all the training data.</p>
+
+            <p>It shows a greater frequency in certain names in the training:</p>
+
+            <div class="tokens">
+              2 tokens <span>Sarah</span><span> Mitchell</span>
+            </div>
+
+            <div class="tokens">
+              3 tokens <span>Row</span><span>an</span><span> Hale</span>
+            </div>
+
+            <div class="tokens">
+              6 tokens <span>A</span><span>isha</span><span> Ok</span><span>onk</span><span>wo</span>
+            </div>
+
+            <p>EXPLAIN WHAT THIS MEANS</p>
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section style="--i: 19; --n:17;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <h1>Why Rowan Hale?</h1>
+
+            <ul>
+              <li>Rowan and Hale come from the training data but the connection between them is not promintent in common training data sets.</li>
+              <li>No other companies' LLM generates the name, something specific to OpenAI's training and refinement
+                pushes this name</li>
+              <!--<li>It's frequency is increasing, due to the amount of AI Slop generated.</li>-->
+
+              <li>Rowan being unisex makes it flexible as an answer.</li>
+              <li>Hale associated with health/strength may make it appealing.</li>
+              <li>Short and easy to pronounce for certain audiences.</li>
+            </ul>
+
+            <p>OpenAI is an American company and the training data sources are known to amplify English speaking culture
+              (Note: we did not get any names outside of the English American alphabet).</p>
+
+            <p>It would be unsurprising that OpenAI, an American company, using training data dominated by American
+              culture would be targeted towards satisfying an American, English speaking audience. Even further someone
+              with disposable income to spend on AI services and an excitement to embrace disruptive Technology.</p>
+
+            <p>Someone who would find Rowan Hale, a satisfying, made-up name.</p>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <section style="--i: 17; --n:21;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <p>One thing is sure.</p>
+
+            <p>Rowan Hale makes a good slop name.</p>
+            <p>It occurs infrequently enough on the internet to avoid search competition.</p>
+            <p>It does not conflict with any major figure risking take-downs or legal action.</p>
+
+
+            <p>What other names make good Slop Names?</p>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <section style="--i: 21; --n:22;">
+      <div class="container" style="text-align: center;" id="top-slop-container">
+        <div>
+          <div id="top-o"
+            style="height: max(7.75rem,min(8.02589vw + 5.86893rem,15.5rem)); width: 250px; position: absolute; left:-50px">
+            <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+              style="height: max(7.75rem,min(8.02589vw + 5.86893rem,15.5rem)); width: max(7.75rem,min(8.02589vw + 5.86893rem,15.5rem)); --fy: 1.15;">
+              <div class="scroll-smooth-effects__circle-inner"
+                style="width: 5.18893vw; height: 5.18893vw; opacity: 0.758497;"></div>
+            </div>
+
+
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" viewBox="0 0 349.24619 349.24619" aria-hidden="true">
+  <path fill="url(#paint0_linear_2452_11835)"  d="m 268.82959,268.82959 c -51.994,51.994 -136.419,51.994 -188.413003,0 -51.994,-51.994 -51.994,-136.419 0,-188.413003 51.994003,-51.994 136.419003,-51.994 188.413003,0 51.994,51.994003 51.994,136.419003 0,188.413003 z" style="stroke:#23ff00;stroke-width:33.33px"></path>
+
+  <defs>
+    <linearGradient id="paint0_linear_2452_11835" x1="218" x2="-47.283" y1="258" y2="153.706" gradientUnits="userSpaceOnUse">
+      <stop offset=".27" stop-color="#ff0026"></stop>
+      <stop offset=".838" stop-color="#f3ff70"></stop>
+    </linearGradient>
+    <linearGradient id="paint1_linear_2452_11835" x1="-21.183" x2="223.712" y1="-7.807" y2="329.472" gradientUnits="userSpaceOnUse">
+      <stop offset=".27" stop-color="#FEC5FB"></stop>
+      <stop offset=".838" stop-color="#00BAE2"></stop>
+    </linearGradient>
+    <pattern id="pattern-scroll-trigger-pin-windmill-0" width=".403" height=".403" patternContentUnits="objectBoundingBox">
+      <use xlink:href="#svg-noise" transform="scale(.0008)"></use>
+    </pattern>
+  </defs>
+</svg> -->
+          </div>
+          <h1 style="font-size: clamp(7rem, 16vw, 16rem); margin: 0px;" >T O P</h1>
+        </div>
+        <div style="">
+          <span>
+            <h1 style="white-space: nowrap; font-size: 3em; margin: 0px; display:inline">OF</h1>
+          </span>
+          <span>
+            <h1 style="white-space: nowrap; font-size: 3em; margin: 0px;  display:inline">THE</h1>
+          </span>
+        </div>
+        <div style="">
+          <!-- MARGIN - THIS IS BREAKING SCROLL -->
+          <div id="slop-o"
+            style="height: max(7.75rem,min(8.02589vw + 5.86893rem,15.5rem)); width: max(7.75rem,min(8.02589vw + 5.86893rem,15.5rem)); position: absolute; right:-50px;">
+            <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+              style="height: max(7.75rem,min(8.02589vw + 5.86893rem,15.5rem)); width: max(7.75rem,min(8.02589vw + 5.86893rem,15.5rem)); transform: translate3d(0px, 0px, 0px); --fy: 1.1;">
+              <div class="scroll-smooth-effects__circle-inner"
+                style="width: 5.18893vw; height: 5.18893vw; opacity: 0.758497;"></div>
+            </div>
+          </div>
+          <h1 style="font-size: clamp(4.2rem, 16vw, 16rem); margin: 0px;">
+
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" viewBox="0 0 349.24619 349.24619" aria-hidden="true">
+  <path fill="url(#paint0_linear_2452_11835)"  d="m 268.82959,268.82959 c -51.994,51.994 -136.419,51.994 -188.413003,0 -51.994,-51.994 -51.994,-136.419 0,-188.413003 51.994003,-51.994 136.419003,-51.994 188.413003,0 51.994,51.994003 51.994,136.419003 0,188.413003 z" style="stroke:#23ff00;stroke-width:33.33px"></path>
+
+  <defs>
+    <linearGradient id="paint0_linear_2452_11835" x1="218" x2="-47.283" y1="258" y2="153.706" gradientUnits="userSpaceOnUse">
+      <stop offset=".27" stop-color="#ff0026"></stop>
+      <stop offset=".838" stop-color="#f3ff70"></stop>
+    </linearGradient>
+    <pattern id="pattern-scroll-trigger-pin-windmill-0" width=".403" height=".403" patternContentUnits="objectBoundingBox">
+      <use xlink:href="#svg-noise" transform="scale(.0008)">
+        <image id="svg-noise" width="500" height="500" xlink:href="/imgs/noise-e82662fe.png"></image>
+      </use>
+    </pattern>
+  </defs>
+</svg> -->
+
+            S L O P S
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <section style="--i: 22; --n:23;">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+
+            <p>Which company's LLM is responsible for the most viewed AI slop?</p>
+
+            <p>By searching the internet for our AI Slop names, we can quickly identify AI generated content.</p>
+          </div>
+        </div>
+    </section>
+
+
+    <section style="--i: 23; --n:0;">
+      <div class="container" id="top-6-countdown" style="transform: translate(0px, 0px);">
+        <div>
+          <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+            style=" left: 24.671624vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+            <div class="scroll-smooth-effects__circle-inner2"
+              style="width: 1.18893vw; height: 2.18893vw; opacity: 0.558497;"></div>
+          </div>
+
+          <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+            style=" left: 3.671624vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate3d(0px, 2px, 0px); opacity: 0.7984;">
+            <div class="scroll-smooth-effects__circle-inner2"
+              style="width: 1.18893vw; height: 1.0vw; opacity: 0.558497;"></div>
+          </div>
+
+          <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+            style=" left: 40.671624vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate3d(0px, 2px, 0px); opacity: 0.7984;">
+            <div class="scroll-smooth-effects__circle-inner2"
+              style="width: 1.18893vw; height: 6.0vw; opacity: 0.558497;"></div>
+          </div>
+
+          <h1 class="contrast-header splash-title-full" style="">TOP 6 COUNT DOWN</h1>
+          <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+            style="top: 86vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+            <div class="scroll-smooth-effects__circle-inner2"
+              style="width: 1.18893vw; height: 2.1vw; opacity: 0.558497;"></div>
+          </div>
+
+        </div>
+
+        <div class="container">
+          <div class="section-panel">
+            <div class="section-content">
+
+              <p>Based on highest views on YouTube containing a Slop Name and evaluated<sup>*</sup> to be AI generated.
+              </p>
+              <p><sup>*</sup>(This is either declared explicitly for the video or evaluated by looking for AI
+                artifacts).</p>
+            </div>
+          </div>
+    </section>
+
+
+
+
+    <section class="scroll-smooth-effects" data-block="scroll-smooth-effects" style="--i: 0; --n: 3">
+      <div class="scroll-smooth-effects__wrapper">
+        <div class="scroll-smooth-effects__container"
+          style="translate: none; rotate: none; scale: none; inset: 0px auto auto 0px; margin: 0px; max-width: 100vw; width: 100vw; max-height: 1100px; height: 1100px; padding: 109.317932px 0px; transform: translate(0px, 0px);">
+
+          <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+            style="top: 160.090099vh; left: 74.671624vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.9984;">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.18893vw; height: 1.18893vw; opacity: 0.558497;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="6.1271157894736845"
+            style="top: 164.09677vh; left: 30.507408vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.9992;">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.31769vw; height: 1.31769vw; opacity: 0.612712;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="7.716673684210527"
+            style="top: 193.279339vh; left: 79.723616vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.9997;">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.69521vw; height: 1.69521vw; opacity: 0.771667;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="5.963284210526316"
+            style="top: 132.98441vh; left: 34.08447vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.9999;">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.27878vw; height: 1.27878vw; opacity: 0.596328;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="1.0568842105263159"
+            style="top: 90.049594vh; left: 46.561779vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 1;">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.11351vw; height: 0.11351vw; opacity: 0.105688;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="4.018357894736843"
+            style="top: 176.830975vh; left: 77.429824vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 1;">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.81686vw; height: 0.81686vw; opacity: 0.401836;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="3.270526315789474"
+            style="top: 134.41513vh; left: 49.880974vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 1;">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.63925vw; height: 0.63925vw; opacity: 0.327053;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="3.511747368421053"
+            style="top: 136.182031vh; left: 22.03248vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px); opacity: 1;">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.69654vw; height: 0.69654vw; opacity: 0.351175;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="2.6235368421052634"
+            style="top: 70.950005vh; left: 22.42595vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px); opacity: 1;">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.48559vw; height: 0.48559vw; opacity: 0.262354;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="3.7006315789473683"
+            style="top: 44.694486vh; left: 27.587179vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px); opacity: 1;">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.7414vw; height: 0.7414vw; opacity: 0.370063;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="8.103494736842105"
+            style="top: 86.255662vh; left: 78.751722vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 1;">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.78708vw; height: 1.78708vw; opacity: 0.810349;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="2.1508210526315787"
+            style="top: 120.547767vh; left: 43.420565vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.37332vw; height: 0.37332vw; opacity: 0.215082;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="3.8731368421052634"
+            style="top: 13.383714vh; left: 32.310987vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.78237vw; height: 0.78237vw; opacity: 0.387314;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="6.4766315789473685"
+            style="top: 70.986552vh; left: 13.480946vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.4007vw; height: 1.4007vw; opacity: 0.647663;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="3.618063157894737"
+            style="top: 97.52972vh; left: 37.610629vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.72179vw; height: 0.72179vw; opacity: 0.361806;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="6.426021052631579"
+            style="top: 113.360771vh; left: 72.860686vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.38868vw; height: 1.38868vw; opacity: 0.642602;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="3.4342736842105266"
+            style="top: 101.835512vh; left: 59.805576vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.67814vw; height: 0.67814vw; opacity: 0.343427;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="2.8896000000000006"
+            style="top: 38.956337vh; left: 34.483129vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.54878vw; height: 0.54878vw; opacity: 0.28896;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="4.8455157894736836"
+            style="top: 41.349246vh; left: 26.539371vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.01331vw; height: 1.01331vw; opacity: 0.484552;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="6.2443368421052625"
+            style="top: 13.583198vh; left: 68.788655vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.34553vw; height: 1.34553vw; opacity: 0.624434;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="6.899157894736842"
+            style="top: 5.065899vh; left: 11.607071vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.50105vw; height: 1.50105vw; opacity: 0.689916;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="4.02821052631579"
+            style="top: 32.033614vh; left: 19.819039vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.8192vw; height: 0.8192vw; opacity: 0.402821;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="2.1849684210526314"
+            style="top: 52.284374vh; left: 54.962155vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.38143vw; height: 0.38143vw; opacity: 0.218497;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="6.234315789473684"
+            style="top: 70.093267vh; left: 69.382103vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.34315vw; height: 1.34315vw; opacity: 0.623432;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="2.8449684210526316"
+            style="top: 88.606856vh; left: 73.25787vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.53818vw; height: 0.53818vw; opacity: 0.284497;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="4.007789473684211"
+            style="top: 80.024757vh; left: 15.514979vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.81435vw; height: 0.81435vw; opacity: 0.400779;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="5.809136842105263"
+            style="top: 1.654559vh; left: 3.430005vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.24217vw; height: 1.24217vw; opacity: 0.580914;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="2.3451368421052634"
+            style="top: 101.421418vh; left: 27.145512vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.41947vw; height: 0.41947vw; opacity: 0.234514;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="8.945515789473685"
+            style="top: 57.888403vh; left: 40.844627vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.98706vw; height: 1.98706vw; opacity: 0.894552;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="5.325431578947367"
+            style="top: 133.591854vh; left: 59.170271vw; translate: none; rotate: none; scale: none; --fy: 11; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.12729vw; height: 1.12729vw; opacity: 0.532543;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="1.9550315789473685"
+            style="top: 27.715503vh; left: 71.399559vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.32682vw; height: 0.32682vw; opacity: 0.195503;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="7.120842105263158"
+            style="top: 59.183424vh; left: 14.465673vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.5537vw; height: 1.5537vw; opacity: 0.712084;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="7.071326315789474"
+            style="top: 97.459642vh; left: 61.891536vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.54194vw; height: 1.54194vw; opacity: 0.707133;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="7.887157894736842"
+            style="top: 30.449725vh; left: 74.57267vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.7357vw; height: 1.7357vw; opacity: 0.788716;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="1.1717052631578946"
+            style="top: 192.780411vh; left: 32.410766vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.14078vw; height: 0.14078vw; opacity: 0.117171;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="2.6772210526315794"
+            style="top: 50.238563vh; left: 72.693621vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.49834vw; height: 0.49834vw; opacity: 0.267722;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="6.287326315789473"
+            style="top: 70.303754vh; left: 80.593334vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.35574vw; height: 1.35574vw; opacity: 0.628733;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="8.514442105263157"
+            style="top: 192.131376vh; left: 40.692728vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.88468vw; height: 1.88468vw; opacity: 0.851444;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="8.600547368421052"
+            style="top: 113.37246vh; left: 39.08627vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px,  0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 1.90513vw; height: 1.90513vw; opacity: 0.860055;"></div>
+          </div>
+          <div class="scroll-smooth-effects__circle" data-scale="2.0408842105263156"
+            style="top: 53.496961vh; left: 26.562289vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px);">
+            <div class="scroll-smooth-effects__circle-inner"
+              style="width: 0.34721vw; height: 0.34721vw; opacity: 0.204088;">
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+      </div>
+      </div>
+      </div>
+    </section>
+
+
+    <section style="--i: 3; --n: 3" class="chart-toppers" >
+      <div class="container-countdown" style="transform: translate(0px,0px);">
+
+        <div class="count-down" >
+          <div  class="num">6</div>
+          <div  class="chart">
+            <div >
+              <h1>Deepseek</h1>
+              <div  class="chart-summary">
+                <p><span style="font-size: 1.5em; ">"Emily Carter"</span> &bull; Generated by Deepseek &bull; <span
+                    class="views">82,700 views</span></p>
+
+              </div>
+            </div>
+
+            <div class="chart-details">
+              
+              <img style="margin-bottom: 15px; margin-top: 15px; margin-right: 30px; align-self: center;"
+                src="/imgs/top_slops/mHvmnWoGEx0-MQ.jpg">
+                
+               <div>
+              <h2 style="margin-top:15px;">Over 60? THIS Vitamin Improves Blood Flow in Your Legs | Senior Health Tips</h2>
+              <p style="margin-top:0px;">YouTube Channel: Dr. Emily Carter</p>
+              </div>
+              
+              <p></p>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+          style="top: 160.090099vh; left: 64.671624vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.9984;">
+          <div class="scroll-smooth-effects__circle-inner"
+            style="width: 1.18893vw; height: 1.18893vw; opacity: 0.558497;"></div>
+        </div>
+      </div>
+
+
+    </section>
+
+    <section style="--i: 3; --n: 3" class="chart-toppers">
+      <div class="container-countdown" style="transform: translate(0px,0px);">
+        <div class="count-down">
+          <div class="num">5</div>
+          <div class="chart">
+            <h1>Google / Anthropic</h1>
+            <div class="chart-summary">
+              <p><span class="ai-slop-name">"Maya Patel"</span> &bull; Generated by Gemini or Claude &bull; <span
+                  class="views">107,000 views</span> </p>
+            </div>
+            <div>
+
+              <div class="chart-details">
+                <img style="margin-bottom: 15px; margin-top: 15px; margin-right: 30px; align-self: center;"
+                  src="/imgs/top_slops/RoDo5Iw_a5A-MQ.jpg">
+                  <div>
+                <h2>Dr. Maya Patel: The mind that never gave up #fyp #story #animation</h2>
+
+                <p>YouTube Channel: Midnight Pall</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+          style="top: 86vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+          <div class="scroll-smooth-effects__circle-inner" style="width: 1.18893vw; height: 2.1vw; opacity: 0.558497;">
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+
+
+
+    <section style="--i: 3; --n: 3" class="chart-toppers">
+      <div class="container-countdown" style="transform: translate(0px,0px);">
+        <div class="count-down">
+          <div class="num">4</div>
+          <div class="chart">
+
+            <h1>Microsoft</h1>
+            <div class="chart-summary">
+              <p><span class="ai-slop-name">"Sarah Mitchell"</span> &bull; Generated by Copilot &bull; <span
+                  class="views">438,867 views</span></p>
+            </div>
+
+
+
+
+            <div class="chart-details">
+              <img style="margin-bottom: 15px; margin-top: 15px; margin-right: 30px; align-self: center;"
+                src="/imgs/top_slops/_FziMT0pt-E-MQ.jpg">
+                <div>
+              <h2 style="font-weight: 400;">Jimmy Fallon SPEECHLESS When Keanu Reeves Suddenly Walks Off Stage After
+                Reading This Letter</h2>
+              <p>YouTube Channel: Jimmy Fallon: Beyond The Stage (2.78k subs)</p>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+        <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+          style="top: 86vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+          <div class="scroll-smooth-effects__circle-inner" style="width: 1.18893vw; height: 2.1vw; opacity: 0.558497;">
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+
+
+    <section style="--i: 3; --n: 3" class="chart-toppers">
+      <div class="container-countdown" style="transform: translate(0px,0px);">
+        <div class="count-down">
+          <div class="num">3</div>
+          <div class="chart">
+            <div>
+              <h1>Microsoft</h1>
+              <div class="chart-summary">
+                <p><span class="ai-slop-name">"Maya Thompson"</span> &bull; Generated by Co-pilot &bull; <span
+                    class="views">508,927 views</span></p>
+              </div>
+            </div>
+
+
+
+
+
+
+            <div class="chart-details">
+              <img style="margin-bottom: 15px; margin-top: 15px; margin-right: 30px; align-self: center;"
+                src="/imgs/top_slops/4eZaSENTvlQ-MQ.jpg">
+                <div>
+              <h2>Little Girl Told The Judge: "I’m My Dad’s LAWYER" – Then Something Happened UNBELIEVABLE!</h2>
+
+              <p>YouTube Channel: FunFact Fanatics (93.4k subs)</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+          style="top: 86vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+          <div class="scroll-smooth-effects__circle-inner" style="width: 1.18893vw; height: 2.1vw; opacity: 0.558497;">
+          </div>
+        </div>
+      </div>
+
+
+
+    </section>
+
+    <section style="--i: 3; --n: 3" class="chart-toppers">
+      <div class="container-countdown" style="transform: translate(0px,0px);">
+        <div class="count-down">
+          <div class="num">2</div>
+          <div class="chart">
+            <div>
+              <h1>Alibaba's</h1>
+              <div class="chart-summary">
+                <p><span class="ai-slop-name">"Maya Johnson"</span> &bull; Generated by QWQ &bull; <span
+                    class="views">564,963 views</span></p>
+              </div>
+            </div>
+
+
+
+
+            <div class="chart-details">
+              <img style="margin-bottom: 15px; margin-top: 15px; margin-right: 30px; align-self: center;"
+                src="/imgs/top_slops/3eF6Yx4xZVA-MQ.jpg">
+              <h2>Bullies Pick on The Wrong New Black Girl, Not Knowing She’s a Brutal Fighter</h2>
+
+              <p>YouTube Channel: Hope Stories (163k subs)</p>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+          style="top: 86vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+          <div class="scroll-smooth-effects__circle-inner" style="width: 1.18893vw; height: 2.1vw; opacity: 0.558497;">
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+
+    <section style="--i: 3; --n: 3; " class="chart-toppers">
+      <div class="container-countdown" style="transform: translate(0px,0px);">
+        <div class="count-down">
+          <div class="num">1</div>
+          <div class="chart">
+            <div>
+              <h1>Google</h1>
+              <div class="chart-summary">
+                <p><span class="ai-slop-name">"Elias Vance"</span> &bull; Generated by Gemini &bull; <span
+                    class="views">5,996,180 views</span></p>
+              </div>
+            </div>
+
+
+
+
+
+            <div class="chart-details">
+              <img style="margin-bottom: 15px; margin-top: 15px; margin-right: 30px; align-self: center;"
+                src="/imgs/top_slops/j1J47l_yW-Q-MQ.jpg">
+              <h2>FORGOTTEN SOLDIER - Lone Survivor | Full Movie 2025 | Action | English | 4K 1 hour</h2>
+
+              <p>YouTube Channel: AI Trailer Cinema (177k subscribers)</p>
+            </div>
+
+          </div>
+        </div>
+        <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+          style="top: 86vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+          <div class="scroll-smooth-effects__circle-inner" style="width: 1.18893vw; height: 2.1vw; opacity: 0.558497;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section 
+      style="--i: 3; --n: 3; background-image: url('/imgs/30_v3.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important; "
+      class="chart-toppers">
+      <div class="container-countdown" style="transform: translate(0px,0px);">
+
+        <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
+          style="top: 86vh; left: 12vw; translate: none; rotate: none; scale: none; --fy: 1; transform: translate(0px, 0px); opacity: 0.7984;">
+          <div class="scroll-smooth-effects__circle-inner" style="width: 1.18893vw; height: 2.1vw; opacity: 0.558497;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background-image: none; background-color: #000; ">
+      <div class="container">
+        <div class="section-panel">
+          <div class="section-content">
+            <p>The pollution of our information ecosystem with AI <span style=" font-family: Nosifer">Slop</span> is a
+              reflection of the values of AI companies. Deprioritising the lived experiences of others, in favour of a
+              nihilistic acceleration for growth. Justifying itself as being a benefit to those that it actually harms.
+              Accelerating climate collapse and consuming valuable resources because they have decided it's worth it.
+            </p>
+
+            <p>When OpenAI, Meta, Microsoft, Google, Anthropic & Deepseek opened a public interface to their AI chatbots
+              they created an oil spill into our information ecosystem. It’s this pollution we have been scrolling down,
+              trying to find the signs of a real Rowan Hale floating amongst the <span
+                style=" font-family: Nosifer">slop</span>. While the internet has never been without its garbage, the
+              erosion of trust and provenance have been accelerated at an unprecedented scale. It takes significantly
+              more effort to identity the synthetic from the real, and even with research and time, we are never
+              completely sure we didn't mix up a real Rowan Hale with a <span style=" font-family: Nosifer">Slop</span>
+              one.</p>
+
+            <p>We ultimately become unsure who or what we can trust, which is not a byproduct of AI, its an intention.
+            </p>
+
+            <p>When a company pollutes a river and profits what action is taken? What regulation applies?</p>
+
+            <p>When a company pollutes our information ecosystem what are the consequences? Where is the regulation?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src='/js/gsap.min.js'></script>
+  <script src='/js/Draggable.min.js'></script>
+  <script src='/js/ScrollTrigger.min.js'></script>
+  <script src='/js/ScrollSmoother.min.js'></script>
+  <script src='/js/DrawSVGPlugin.min.js'></script>
+
+
+  <script id="rendered-js" type="module">
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+    async function prepareFileListJSON(_url) {
+      let j = fetch(_url);
+      return j;
+    }
+
+    function loadFileList(_url, _container, _trigger) {
+      prepareFileListJSON(_url).then((response) => {
+        response.json().then((data) => {
+          data.forEach((d) => {
+            _container.push(d);
+          });
+          if (_trigger) {
+            _trigger(_container);
+          }
+
+        });
+      });
+    }
+
+    let bookImages = [];
+    let youtubeImages = [];
+    let gridTimer;
+
+
+    let res = document.getElementById('grid');
+    let authorGrid = document.createElement('div');
+    authorGrid.classList.add("iGrid")
+
+    //let contentWidth = document.body.scrollWidth;
+    //console.log(contentWidth);
+
+    let scrollAdjust  = 15;
+    let targetSize = 65;
+    
+
+
+    if(window.innerWidth > 900){
+      targetSize = 106;
+    }
+    let columnCountz =  Math.floor((window.innerWidth-scrollAdjust) / targetSize);
+
+    // console.log(window.innerWidth);
+    // console.log(Math.floor(window.innerWidth/80));
+    // console.log(window.innerWidth / Math.floor(window.innerWidth/80));
+
+    authorGrid.style = "grid-template-columns: repeat("+columnCountz+", 1fr); grid-template-rows: repeat(6, 0fr); width: " + (window.innerWidth-scrollAdjust) + "px; height: " + (window.innerHeight) + "px;";
+    res.appendChild(authorGrid);
+
+    function shuffleArray(array) {
+      let tmp = array;
+      for (let i = tmp.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [tmp[i], tmp[j]] = [tmp[j], tmp[i]];
+      }
+      return tmp;
+    }
+
+    function populateBooks(bs) {
+      for (var i = 0; i < bs.length; i++) {
+        let container = document.createElement('div');
+        container.classList.add("iGridItem")
+
+        let img = document.createElement('img');
+        img.src = bs[i]['big'];
+        img.alt = bs[i]['text']
+        //1001 x 1500
+        
+
+        let newWidth = (window.innerWidth-scrollAdjust) / columnCountz;
+        let newHeight = (newWidth / 1001) * 1500;
+
+        img.style = "width: " + (newWidth-1) + "px; height: " + (newHeight) + "px"
+        img.classList.add("grid_image");
+        container.appendChild(img);
+        authorGrid.appendChild(container);
+      }
+      pulse = authorGrid.childNodes.length;
+      ScrollTrigger.refresh();
+    }
+
+    loadFileList("js/rowan_hale/books.json", bookImages, populateBooks);
+    
+    let gridMargin = 150;
+    let youTubeGrid = document.getElementById('youtube');
+    let columnCount =  Math.floor(window.innerWidth / 392);
+    youTubeGrid.style = "grid-template-columns: repeat("+columnCount+", 1fr); width: " + (window.innerWidth - 15) + "px;";
+
+    function populateVideos(bs) {
+      var cellsRendered = 0;
+      for (var i = 0; i < bs.length; i++) {
+
+        if (bs[i]['match_text'] != "") {
+          cellsRendered+=1;
+          let container = document.createElement('div');
+          container.classList.add("iGridItem2")
+          //container.classList.add("id_"+i)
+          container.style.opacity = 1;
+
+          let details = document.createElement('div');
+          details.classList.add("iMovieText")
+
+          let title = document.createElement('div');
+          title.classList.add("iTitle");
+          title.innerHTML = bs[i]['short_text'];
+          title.style.marginBottom = '20px';
+
+          let img = document.createElement('img');
+          img.src = bs[i]['big'];
+          img.alt = bs[i]['text']
+
+          img.classList.add("iGridImg2");
+          img.style.opacity = 1;
+          //1200 x 720
+
+          let columnCount =  Math.floor(window.innerWidth / 392);
+          let newWidth = Math.floor(window.innerWidth / columnCount);
+          let newHeight = (newWidth / 1200) * 720;
+
+          let alt = document.createElement("div");
+          alt.classList.add("iGridText");
+          alt.innerHTML = bs[i]['match_text'];
+          alt.style.opacity = 1;
+
+          img.style = "width: " + (newWidth-50) + "px; height: " + (newHeight-10) + "px";
+
+          container.appendChild(img);
+          details.appendChild(title);
+          details.appendChild(alt);
+          container.appendChild(details);
+
+
+          youTubeGrid.appendChild(container);
+        }
+      }
+
+      
+      if(columnCount > 0 ){
+      let emptyCells = columnCount - (cellsRendered % columnCount);
+      
+      if(emptyCells > 0){
+        for(var i=0; i < emptyCells; i++){
+          let container = document.createElement('div');
+          container.classList.add("iGridItem2")
+          container.style.opacity = 1;
+          youTubeGrid.appendChild(container);
+        }
+      }
+      }
+
+      pulse = authorGrid.childNodes.length;
+      ScrollTrigger.refresh();
+    }
+
+    loadFileList("js/rowan_hale/youtube.json", youtubeImages, populateVideos);
+
+
+    function stopGrid() {
+      let squares = document.querySelectorAll(".iGridItem");
+      squares.forEach((sq) => {
+        gsap.to(sq, {
+          opacity: 0,
+          duration: 1,
+          ease: "power1.out",
+          delay: Math.random(),
+        });
+      });
+
+      clearInterval(gridTimer);
+      gridTimer = null;
+      pulse = nodes.length;
+    }
+
+    let nodes = authorGrid.childNodes;
+    let pulse = nodes.length;
+
+    function startGrid() {
+      let idx = pulse;
+      pulse = pulse - 1;
+      if (idx >= 0) {
+        let n = nodes[nodes.length - idx];
+        gsap.to(n, {
+          delay: Math.random() * 0.5,
+          duration: 0.5,
+          ease: "power1.out",
+          opacity: 1
+        });
+      }
+    }
+
+    ScrollTrigger.create({
+      trigger: '#section_author',
+      start: "top top",
+      endTrigger: "#section_amazon_store",
+      end: "top top 50%",
+      markers: true,
+      onToggle: (self) => { if (!gridTimer) gridTimer = setInterval(startGrid, 30); },
+      onLeave: (self) => { stopGrid(); },
+      onLeaveBack: (self) => { stopGrid(); },
+    });
+
+
+    //ScrollTrigger.markers = true;
+
+
+    let streams = document.querySelectorAll(".slop_stream");
+    let peps = document.querySelectorAll(".people");
+
+    let pleft = document.querySelector("#pupil_left");
+    let pright = document.querySelector("#pupil_right");
+    let ileft = document.querySelector("#iris_left");
+    let iright = document.querySelector("#iris_right");
+
+    ScrollTrigger.create({
+      trigger: '#robot_slop',
+      pin: true,
+      pinSpacing: false,
+      start: "5% 5%",
+      //start: "clamp(stop bottom)",
+      scrub: true,
+      endTrigger: '#section_rh_internet',
+      end: "top top 50%",
+      //immediateRender: false,
+      //markers: true,
+
+      onUpdate: (self) => {
+        
+        let streamRates = [1000, 900, 800, 400, 500, 500];
+        let radiusRates = [20, 4, 6, 8, 9, 15];
+        console.log(self.progress);
+
+        streams.forEach((stream, index) => {
+          //stream.style.borderRadius = radiusRates[idx]+"px";
+          //Grow at different rates. All reach same length.
+
+          let r = Math.max(65 - (self.progress.toFixed(3) * 65), 20);
+          let l = Math.max(60 - (self.progress.toFixed(3) * 60), 20);
+          // pleft.setAttributeNS(null, 'r',  r);
+          //  pright.setAttributeNS(null, 'r', l);
+
+
+          pleft.setAttributeNS(null, 'cy', 1214 + self.progress.toFixed(3) * 50);
+          pleft.setAttributeNS(null, 'cx', 680 + self.progress.toFixed(3) * 10);
+          ileft.setAttributeNS(null, 'cy', 1214 + self.progress.toFixed(3) * 50);
+          ileft.setAttributeNS(null, 'cx', 680 + self.progress.toFixed(3) * 10);
+
+          pright.setAttributeNS(null, 'cy', 1214 + self.progress.toFixed(3) * 50);
+          pright.setAttributeNS(null, 'cx', 1668 - self.progress.toFixed(3) * 10);
+          iright.setAttributeNS(null, 'cx', 1668 - self.progress.toFixed(3) * 10);
+          iright.setAttributeNS(null, 'cy', 1214 + self.progress.toFixed(3) * 50);
+          //console.log(ileft);
+
+          if (self.progress > 0.9) {
+            stream.style.height = "200vh";
+            //ScrollTrigger.refresh()
+          } else {
+            stream.style.height = (self.progress.toFixed(3) * streamRates[index] * 1.1) + "px";
+          }
+
+          peps[0].style.marginRight = (0 - (self.progress * 30)) + "px";
+          //peps[1].style.marginRight =  (0 - (self.progress  * 30))  + "px";
+          peps[1].style.marginLeft = (0 - (self.progress * 30)) + "px";
+          //peps[3].style.marginLeft =  (0 - (self.progress  * 30))  + "px";
+
+        });
+
+      }
+    })
+    let tl = gsap.timeline({ defaults: { duration: 1 } });
+    tl.to("#spiny", { duration: 1.0, y: 190, repeat: -1, scaleY: 0.9, scaleX: 1.1, yoyo: 1, transformOrigin: "center", ease: "circular:out", cy: 40.5 }).
+      from("#spiny", { duration: 1.0, strokeWidth: 5, repeat: -1, stroke: "#ffffcc", yoyo: 1, ease: "circular" });
+
+
+    gsap.timeline().to("#iris_left", { x: 2, y: 2, duration: 0.1, yoyo: 1, repeat: -1, ease: "bounce" });
+    gsap.timeline().to("#pupil_left", { x: 2, y: 2, duration: 0.1, yoyo: 1, repeat: -1, ease: "bounce" });
+
+    gsap.timeline().to("#iris_right", { x: 2, y: 2, duration: 0.2, yoyo: 1, repeat: -1, ease: "bounce" });
+    gsap.timeline().to("#pupil_right", { x: 2, y: 2, duration: 0.2, yoyo: 1, repeat: -1, ease: "bounce" });
+
+
+    gsap.timeline().from('.slop-rainbow', {
+      scrollTrigger: {
+        trigger: '#garbage-marker',
+        start: 'bottom center',
+        scrub: 10
+        //toggleActions: "play none reverse reset"
+      },
+      drawSVG: 0,
+      duration: 8,
+      stagger: 0.1,
+      ease: "bounce",
+    }
+    )
+
+    gsap.to('#top-o', {
+      scrollTrigger: {
+        trigger: '#top-slop-container',
+        start: 'top bottom',
+        toggleActions: "restart pause reverse pause",
+        scrub: 1.5
+      },
+      x: "50vw",
+      duration: 3,
+      rotate: 360 * 2,
+      ease: "power4"
+    });
+
+    gsap.to('#slop-o', {
+      scrollTrigger: {
+        trigger: '#top-slop-container',
+        start: 'top bottom',
+        toggleActions: "restart pause reverse pause",
+        scrub: 1.5
+      },
+      x: "-50vw",
+      "--fy": 100.0,
+      duration: 2.5,
+      rotate: 360 * 2,
+      ease: "power4"
+    });
+
+
+    let circlet = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.scroll-smooth-effects__wrapper',
+        start: "top 90%",
+        end: "bottom bottom-=8000px",
+        scrub: 1
+      },
+    });
+
+    circlet.to('.scroll-smooth-effects__circle', {
+      y: -window.innerHeight,
+      "--fy": (i, a) => a.dataset.scale,
+      stagger: .008,
+      ease: "power2.inOut",
+      duration: 1
+    }).to('.scroll-smooth-effects__circle', {
+      opacity: 0,
+      duration: 0.5,
+      stagger: .008,
+      ease: "power2.inOut"
+    }, "0.5")
+
+  </script>
+
+
+
+
+</body>
+
+</html>
