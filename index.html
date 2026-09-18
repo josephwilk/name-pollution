@@ -1007,8 +1007,19 @@ clamp(1.2rem, 12vmin, 16rem)
       margin-left: 0px;
     }
 
-@media(max-width: 950px){
+    @media(max-width: 2000px){
+      section{
+       background-image: url('/imgs/30_v3@2000.png'), linear-gradient(hsl(var(--h, 0), 100%, 51%), hsl(var(--h2, 0), 100%, 51%));
+      }
+    }
 
+    @media(max-width: 1000px){
+      section{
+       background-image: url('/imgs/30_v3@1000.png'), linear-gradient(hsl(var(--h, 0), 100%, 51%), hsl(var(--h2, 0), 100%, 51%));
+      }
+    }
+
+    @media(max-width: 950px){
     .scroll-smooth-effects__wrapper{
       display: none;
     }
