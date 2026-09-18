@@ -1049,6 +1049,8 @@ clamp(1.2rem, 12vmin, 16rem)
         border-right:0px;
       } */
 
+
+
       .section_llm_question{line-height: 2rem;}
       .section_llm_answer{line-height: 2rem;}
 
@@ -3389,12 +3391,12 @@ margin-right: 0px; }
       targetSize = 106;
     }
     let columnCountz =  Math.floor((window.innerWidth-scrollAdjust) / targetSize);
-
+    let rowCount = Math.floor(window.innerHeight / targetSize);
     // console.log(window.innerWidth);
     // console.log(Math.floor(window.innerWidth/80));
     // console.log(window.innerWidth / Math.floor(window.innerWidth/80));
 
-    authorGrid.style = "grid-template-columns: repeat("+columnCountz+", 1fr); grid-template-rows: repeat(6, 0fr); width: " + (window.innerWidth-scrollAdjust) + "px; height: " + (window.innerHeight) + "px;";
+    authorGrid.style = "grid-template-columns: repeat("+columnCountz+", 1fr); grid-template-rows: repeat("+rowCount+", 0fr); width: " + (window.innerWidth-scrollAdjust) + "px; height: " + (window.innerHeight) + "px;";
     res.appendChild(authorGrid);
 
     function shuffleArray(array) {
