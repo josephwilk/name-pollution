@@ -1117,6 +1117,11 @@ h1.splash-title-full {
 
   .container-spread {
     flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .container-spread .section-panel {
+    width: 75%;
   }
 
   .count-down {
