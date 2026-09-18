@@ -2275,18 +2275,12 @@
     let scrollAdjust = 15;
     let targetSize = 65;
 
-
-
     if (window.innerWidth > 900) {
       targetSize = 106;
     }
-    let columnCountz = Math.floor((window.innerWidth - scrollAdjust) / targetSize);
-    let rowCount = Math.floor(window.innerHeight / targetSize);
-    // console.log(window.innerWidth);
-    // console.log(Math.floor(window.innerWidth/80));
-    // console.log(window.innerWidth / Math.floor(window.innerWidth/80));
+    let authorColumnCount = Math.floor((window.innerWidth - scrollAdjust) / targetSize);
 
-    authorGrid.style = "grid-template-columns: repeat(" + columnCountz + ", 1fr); grid-template-rows: repeat(" + rowCount + ", 0fr); width: " + (window.innerWidth - scrollAdjust) + "px; height: " + (window.innerHeight) + "px;";
+    authorGrid.style = "grid-template-columns: repeat(" + authorColumnCount + ", 1fr); width: " + (window.innerWidth - scrollAdjust) + "px";
     res.appendChild(authorGrid);
 
     function shuffleArray(array) {
@@ -2301,7 +2295,8 @@
     function populateBooks(bs) {
       for (var i = 0; i < bs.length; i++) {
         let container = document.createElement('div');
-        container.classList.add("iGridItem")
+        container.classList.add("iGridItem");
+        
 
         let img = document.createElement('img');
         img.src = bs[i]['big'];
@@ -2309,7 +2304,7 @@
         //1001 x 1500
 
 
-        let newWidth = (window.innerWidth - scrollAdjust) / columnCountz;
+        let newWidth = (window.innerWidth - scrollAdjust) / authorColumnCount;
         let newHeight = (newWidth / 1001) * 1500;
 
         img.style = "width: " + (newWidth - 1) + "px; height: " + (newHeight) + "px"
