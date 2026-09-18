@@ -580,7 +580,7 @@ nav::after {
   border-image-repeat: round;
 }
 
-.section-panel-small{
+.container-spread .section-panel{
   border: 30px solid rgba(253, 254, 212, 0.25);
   border-image: url("/imgs/drip_eee3.svg") 200 200 302 200;
   border-image-repeat: round;
@@ -605,7 +605,7 @@ nav::after {
   padding-right: 80px;
 }
 
-.section-content-small{
+.container-spread .section-panel .section-content{
   padding: 40px;
 }
 
