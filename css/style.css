@@ -580,6 +580,28 @@ nav::after {
   border-image-repeat: round;
 }
 
+.section-panel-small{
+  border: 30px solid rgba(253, 254, 212, 0.25);
+  border-image: url("/imgs/drip_eee3.svg") 200 200 302 200;
+  border-image-repeat: round;
+}
+
+.section-content-small{
+  padding-left: 50px;
+  padding-right: 50px;
+
+  text-align: justify;
+  font-size: clamp(1rem, 12vmin, 1.6rem);
+  line-height: 1.5em;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+
+  z-index: 9999;
+  background-color: #eee;
+  padding: 50px;
+}
+
 .section-content b {
   font-weight: 600;
 }
