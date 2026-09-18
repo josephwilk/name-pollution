@@ -364,6 +364,10 @@ section {
   justify-content: center;
   align-items: center;
 
+  background-image:
+      url("/imgs/30_v3@1000.png"),
+      linear-gradient(hsl(var(--h, 0), 100%, 51%), hsl(var(--h2, 0), 100%, 51%));
+
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
@@ -994,7 +998,7 @@ h1.splash-title-full {
   margin-left: 0px;
 }
 
-@media (max-width: 3000px) {
+@media (max-width: 8000px) {
   section {
     background-image:
       url("/imgs/30_v3.png"),
