@@ -834,9 +834,12 @@ h1 {
 .highlight {
   color: red;
   font-weight: 800;
-  text-shadow: #00ff55 0px 0px 3px;
+  text-shadow: #00ff55 0px 0px 2px;
 }
 
+.iGridItem2 .highlight{
+  text-shadow: #00ff55 0px 0px 1px;
+}
 .name-profile {
   justify-content: center;
   width: 100%;
