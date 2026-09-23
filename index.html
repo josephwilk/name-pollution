@@ -1522,12 +1522,15 @@
           <div class="section-content">
             <h1>Token size</h1>
 
-            <p>LLMs work with tokens rather than words, multiple tokens can form a word.</p>
+            <p>LLMs work with tokens, a sequence of characters rather than words. So multiple tokens can form a word.</p>
 
-            <p>The number of tokens used to represent a name reflects how frequent that name is across the vocabary of
-              all the training data.</p>
+            <p>An LLM like GPT-5 breaks up a word into tokens by how frequently those tokens occur across all the vocabulary in the training data.</p>
 
-            <p>It shows a greater frequency in certain names in the training:</p>
+            <p>So, if a name like "Rowan Hale" occurs very frequently in the training data, it is likely to be turned in a small number of tokens. If it rarely occurred it would
+              more tokens.
+            </p>
+
+            <p>This gives us a rough idea of how frequently Rowan Hale might have occurred in the training data compared with other names.</p>
 
             <div class="tokens">
               2 tokens <span>Sarah</span><span> Mitchell</span>
@@ -1540,7 +1543,6 @@
             <div class="tokens">
               6 tokens <span>A</span><span>isha</span><span> Ok</span><span>onk</span><span>wo</span>
             </div>
-
           </div>
         </div>
       </div>
@@ -1554,15 +1556,14 @@
             <h1>Why Rowan Hale?</h1>
 
             <ul>
-              <li>"Rowan" and "Hale" come from the training data but the connection between them is not promintent in common
-                training data sets.</li>
-              <li>No other companies' LLM generates the name, something specific to OpenAI's training and refinement
+              <li>"Rowan" and "Hale" are names from common, open training datasets but the connection between them is not.</li>           
+                <li>No other companies' LLM generates the name, something specific to OpenAI's training and refinement
                 pushes this name</li>
-              <!--<li>It's frequency is increasing, due to the amount of AI Slop generated.</li>-->
-
-              <li>Rowan being unisex makes it flexible as an answer.</li>
-              <li>Hale associated with health/strength may make it appealing.</li>
-              <li>Short and easy to pronounce for certain audiences.</li>
+                <li>"Rowan Hale" appears to be prominent in the OpenAI's training data, at a guess this could from OpenAI using its own LLM to generated training data or an unknown dataset.</li>
+             
+                <li>Rowan being unisex makes it flexible as an answer.</li>
+                <li>Hale being associated with health/strength may make it appealing.</li>
+                <li>Short and easy to pronounce for certain audiences.</li>
             </ul>
 
             <p>OpenAI is an American company and the training data sources are known to amplify English speaking culture
