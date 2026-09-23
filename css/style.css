@@ -835,6 +835,7 @@ h1 {
   color: red;
   text-decoration: underline;
   font-weight: 800;
+  text-shadow: #00ff55 2px 2px;
 }
 
 .name-profile {
