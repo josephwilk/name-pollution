@@ -957,6 +957,11 @@ h1 {
   border: 1px solid #222222;
 }
 
+.tokens{
+  margin-top: 15px;
+  margin-bottom: 15px;
+
+}
 .tokens span:nth-child(even) {
   background-color: red;
 }
