@@ -965,6 +965,10 @@ h1 {
   background-color: greenyellow;
 }
 
+.tokens-example{
+  margin-left: 20px;
+}
+
 .review-section {
   margin-bottom: 30px;
 }
