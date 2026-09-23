@@ -833,9 +833,8 @@ h1 {
 
 .highlight {
   color: red;
-  text-decoration: underline;
   font-weight: 800;
-  text-shadow: #00ff55 2px 2px;
+  text-shadow: #00ff55 0px 0px 3px;
 }
 
 .name-profile {
