@@ -1522,27 +1522,43 @@
           <div class="section-content">
             <h1>Token size</h1>
 
-            <p>LLMs work with tokens, a sequence of characters rather than words. So multiple tokens can form a word.</p>
+            <p>LLMs work with tokens, a sequence of characters rather than words. So multiple tokens can form a word. Importantly for names, case can effect tokens.</p>
+
+            <div class="tokens-example">
+              <div class="tokens">1 token&nbsp; &nbsp; - <span>Sarah</span></div>
+              <div class="tokens">2 tokens - <span>s</span><span>arah</span></div>
+            
+            </div>
 
             <p>An LLM like GPT-5 breaks up a word into tokens by how frequently those tokens occur across all the vocabulary in the training data.</p>
 
-            <p>So, if a name like "Rowan Hale" occurs very frequently in the training data, it is likely to be turned in a small number of tokens. If it rarely occurred it would
+            <p>So, if a name like "Rowan Hale" occurs very frequently in the training data, it is likely to be turned into a smaller number of tokens. If it rarely occurred it would
               more tokens.
             </p>
 
-            <p>This gives us a rough idea of how frequently Rowan Hale might have occurred in the training data compared with other names.</p>
+            <p>This gives us a rough idea of how frequently Rowan Hale might have occurred in the training data compared with other names:</p>
 
+            <div class="tokens-example">
             <div class="tokens">
-              2 tokens <span>Sarah</span><span> Mitchell</span>
+              2 tokens - <span>Sarah</span><span> Mitchell</span>
             </div>
 
             <div class="tokens">
-              3 tokens <span>Row</span><span>an</span><span> Hale</span>
+              2 tokens - <span>James</span><span> Carter</span>
+            </div>
+
+
+            <div class="tokens">
+              3 tokens - <span>Row</span><span>an</span><span> Hale</span>
             </div>
 
             <div class="tokens">
-              6 tokens <span>A</span><span>isha</span><span> Ok</span><span>onk</span><span>wo</span>
+              6 tokens - <span>A</span><span>isha</span><span> Ok</span><span>onk</span><span>wo</span>
             </div>
+            </div>
+
+            <p>Its worth mentioning OpenAI's tokeniser tool, used for these examples only shows how a word <i>might be tokenized</i>.</p>
+
           </div>
         </div>
       </div>
