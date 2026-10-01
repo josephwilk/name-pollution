@@ -274,7 +274,7 @@ ul li {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/ZGjXol5JTp0g5bxZWCRbVRFeCDpK1A.woff2) format("woff2");
+  src: url(/name-pollution/fonts/ZGjXol5JTp0g5bxZWCRbVRFeCDpK1A.woff2) format("woff2");
   unicode-range:
     U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
     U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
@@ -287,7 +287,7 @@ ul li {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/ZGjXol5JTp0g5bxZWCpbVRFeCDo.woff2) format("woff2");
+  src: url(/name-pollution/fonts/ZGjXol5JTp0g5bxZWCpbVRFeCDo.woff2) format("woff2");
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
     U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
@@ -365,7 +365,7 @@ section {
   align-items: center;
 
   background-image:
-      url("/imgs/30_v3@1000.png"),
+      url("/name-pollution/imgs/30_v3@1000.png"),
       linear-gradient(hsl(var(--h, 0), 100%, 51%), hsl(var(--h2, 0), 100%, 51%));
 
   background-repeat: no-repeat;
@@ -576,13 +576,13 @@ nav::after {
 .section-panel {
   /*80px looks fab */
   border: 60px solid rgba(253, 254, 212, 0.25);
-  border-image: url("/imgs/drip_eee3.svg") 200 200 302 200;
+  border-image: url("/name-pollution/imgs/drip_eee3.svg") 200 200 302 200;
   border-image-repeat: round;
 }
 
 .container-spread .section-panel{
   border: 30px solid rgba(253, 254, 212, 0.25);
-  border-image: url("/imgs/drip_eee3.svg") 200 200 302 200;
+  border-image: url("/name-pollution/imgs/drip_eee3.svg") 200 200 302 200;
   border-image-repeat: round;
 }
 
@@ -1044,49 +1044,49 @@ h1.splash-title-full {
 }
 
 .blackout1{
-  background-image: url('/imgs/30_v3.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black)
+  background-image: url('/name-pollution/imgs/30_v3.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black)
 }
 
 .blackout2{
-  background-image: url('/imgs/30_v3.png'), linear-gradient(black, hsl(330, 100%, 51%));
+  background-image: url('/name-pollution/imgs/30_v3.png'), linear-gradient(black, hsl(330, 100%, 51%));
 }
 
 .blackout3{
-  background-image: url('/imgs/30_v3.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important;
+  background-image: url('/name-pollution/imgs/30_v3.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important;
 }
 
 @media (max-width: 8000px)  {
   section {
     background-image:
-      url("/imgs/30_v3.png"),
+      url("/name-pollution/imgs/30_v3.png"),
       linear-gradient(hsl(var(--h, 0), 100%, 51%), hsl(var(--h2, 0), 100%, 51%));
   }
-  .blackout1{background-image: url('/imgs/30_v3.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black)}
-  .blackout2{background-image: url('/imgs/30_v3.png'), linear-gradient(black, hsl(330, 100%, 51%));}
-  .blackout3{background-image: url('/imgs/30_v3.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important;}
+  .blackout1{background-image: url('/name-pollution/imgs/30_v3.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black)}
+  .blackout2{background-image: url('/name-pollution/imgs/30_v3.png'), linear-gradient(black, hsl(330, 100%, 51%));}
+  .blackout3{background-image: url('/name-pollution/imgs/30_v3.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important;}
 }
 
 @media (max-width: 2000px) {
   section {
     background-image:
-      url("/imgs/30_v3@2000.png"),
+      url("/name-pollution/imgs/30_v3@2000.png"),
       linear-gradient(hsl(var(--h, 0), 100%, 51%), hsl(var(--h2, 0), 100%, 51%));
   }
-  .blackout1{background-image: url('/imgs/30_v3@2000.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black)}
-  .blackout2{background-image: url('/imgs/30_v3@2000.png'), linear-gradient(black, hsl(330, 100%, 51%));}
-  .blackout3{background-image: url('/imgs/30_v3@2000.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important;}
+  .blackout1{background-image: url('/name-pollution/imgs/30_v3@2000.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black)}
+  .blackout2{background-image: url('/name-pollution/imgs/30_v3@2000.png'), linear-gradient(black, hsl(330, 100%, 51%));}
+  .blackout3{background-image: url('/name-pollution/imgs/30_v3@2000.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important;}
 
 }
 
 @media (max-width: 1000px) {
   section {
     background-image:
-      url("/imgs/30_v3@1000.png"),
+      url("/name-pollution/imgs/30_v3@1000.png"),
       linear-gradient(hsl(var(--h, 0), 100%, 51%), hsl(var(--h2, 0), 100%, 51%));
   }
-  .blackout1{background-image: url('/imgs/30_v3@1000.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black)}
-  .blackout2{background-image: url('/imgs/30_v3@1000.png'), linear-gradient(black, hsl(330, 100%, 51%));}
-  .blackout3{background-image: url('/imgs/30_v3@1000.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important;}
+  .blackout1{background-image: url('/name-pollution/imgs/30_v3@1000.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black)}
+  .blackout2{background-image: url('/name-pollution/imgs/30_v3@1000.png'), linear-gradient(black, hsl(330, 100%, 51%));}
+  .blackout3{background-image: url('/name-pollution/imgs/30_v3@1000.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important;}
 }
 
 @media (max-width: 950px) {
@@ -1112,7 +1112,7 @@ h1.splash-title-full {
 
   .section-panel {
     border: 40px solid rgba(253, 254, 212, 0.25);
-    border-image: url("/imgs/drip_eee3.svg") 200 200 302 200;
+    border-image: url("/name-pollution/imgs/drip_eee3.svg") 200 200 302 200;
     border-image-repeat: round;
   }
 
