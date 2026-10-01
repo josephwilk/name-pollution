@@ -365,7 +365,7 @@ section {
   align-items: center;
 
   background-image:
-      url("/name-pollution/imgs/30_v3@1000.png"),
+      url("/name-pollution/imgs/30_v3@500.png"),
       linear-gradient(hsl(var(--h, 0), 100%, 51%), hsl(var(--h2, 0), 100%, 51%));
 
   background-repeat: no-repeat;
@@ -1075,6 +1075,18 @@ h1.splash-title-full {
   .blackout1{background-image: url('/name-pollution/imgs/30_v3@2000.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black)}
   .blackout2{background-image: url('/name-pollution/imgs/30_v3@2000.png'), linear-gradient(black, hsl(330, 100%, 51%));}
   .blackout3{background-image: url('/name-pollution/imgs/30_v3@2000.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important;}
+
+}
+
+@media (max-width: 1500px) {
+  section {
+    background-image:
+      url("/name-pollution/imgs/30_v3@1500.png"),
+      linear-gradient(hsl(var(--h, 0), 100%, 51%), hsl(var(--h2, 0), 100%, 51%));
+  }
+  .blackout1{background-image: url('/name-pollution/imgs/30_v3@1500.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black)}
+  .blackout2{background-image: url('/name-pollution/imgs/30_v3@1500.png'), linear-gradient(black, hsl(330, 100%, 51%));}
+  .blackout3{background-image: url('/name-pollution/imgs/30_v3@1500.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important;}
 
 }
 
