@@ -2308,8 +2308,11 @@
    
     function populateBooks(bs) {
 
-      
-      for (var i = 0; i < bs.length; i++) {
+      //Guess no of books to load. // 106
+      let authorRowCount = Math.floor((window.innerHeight) / targetSize);
+      let booksOnPage = authorRowCount * authorColumnCount;
+      console.debug("Loading only: "+ booksOnPage + " of " + bs.length + " books")
+      for (var i = 0; i < Math.min(bs.length, booksOnPage) ; i++) {
        
         let container = document.createElement('div');
         container.classList.add("iGridItem");
