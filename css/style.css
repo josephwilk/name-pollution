@@ -1090,6 +1090,18 @@ h1.splash-title-full {
 
 }
 
+@media (max-width: 1250px) {
+  section {
+    background-image:
+      url("/name-pollution/imgs/30_v3@1250.png"),
+      linear-gradient(hsl(var(--h, 0), 100%, 51%), hsl(var(--h2, 0), 100%, 51%));
+  }
+  .blackout1{background-image: url('/name-pollution/imgs/30_v3@1250.png'), linear-gradient(hsl(var(--h,0), 100%, 51%), black)}
+  .blackout2{background-image: url('/name-pollution/imgs/30_v3@1250.png'), linear-gradient(black, hsl(330, 100%, 51%));}
+  .blackout3{background-image: url('/name-pollution/imgs/30_v3@1250.png'), linear-gradient(hsl(90, 100%, 51%), black 46.64%) !important;}
+
+}
+
 @media (max-width: 1000px) {
   section {
     background-image:
