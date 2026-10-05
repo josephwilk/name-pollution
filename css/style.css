@@ -981,6 +981,8 @@ silly linear-gradient(78deg, rgb(251, 66, 66) 0.43%, #ffd400 10.92%, rgb(1, 255,
   padding-right: 1px;
   border-radius: 3px;
   box-shadow: 1px 1px rgb(0, 9, 111);
+  margin-left:1.5px;
+  margin-right:1.5px;
 }
 
 .tokens{
