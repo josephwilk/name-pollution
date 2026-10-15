@@ -2454,6 +2454,30 @@
       }
     }
 
+    function resizeGrids(){
+      let columnCount = Math.floor(window.innerWidth / 392);
+      youTubeGrid.style = "grid-template-columns: repeat(" + columnCount + ", 1fr); width: " + (window.innerWidth - 15) + "px;";
+
+
+      let scrollAdjust = 15;
+      let targetSize = 65;
+      if (window.innerWidth > 900) {
+        targetSize = 106;
+      }
+      authorColumnCount = Math.floor((window.innerWidth - scrollAdjust) / targetSize);
+      authorGrid.style = "grid-template-columns: repeat(" + authorColumnCount + ", 1fr); width: " + (window.innerWidth - scrollAdjust) + "px";
+   
+      console.log("reload");
+    }
+
+    addEventListener("resize", (event) => {
+      resizeGrids();      
+  //    loadFileList("/js/rowan_hale/books.json", bookImages, populateBooks);
+  //    loadFileList("js/rowan_hale/youtube.json", youtubeImages, populateVideos);
+     })
+
+
+
     ScrollTrigger.create({
       trigger: '#section_author',
       start: "top top",
