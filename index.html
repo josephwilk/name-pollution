@@ -2316,7 +2316,7 @@
       //Guess no of books to load. // 106
       let authorRowCount = Math.floor((window.innerHeight) / targetSize);
       let booksOnPage = authorRowCount * authorColumnCount;
-      console.debug("Loading only: "+ booksOnPage + " of " + bs.length + " books")
+      console.debug("Loading only: "+ Math.min(booksOnPage,bs.length) + " of " + bs.length + " books")
       for (var i = 0; i < Math.min(bs.length, booksOnPage) ; i++) {
        
         let container = document.createElement('div');
