@@ -784,8 +784,6 @@ h1 {
   border: 2px solid #141417;
 }
 
-.iGridVideo {
-}
 
 .iTitle {
   font-size: 2em;
@@ -945,17 +943,6 @@ figure{
   margin-right: -3px;
 }
 
-.left-people {
-  /* margin-bottom: 0px; 
-  margin-top: 0px;
-*/
-}
-.right-people {
-  /* margin-bottom: 0px; 
-  margin-top: 0px;
-  z-index: 1;
-  rotate: 90deg;  */
-}
 
 #spiny {
   z-index: -10;
