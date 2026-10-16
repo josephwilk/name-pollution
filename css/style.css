@@ -924,6 +924,10 @@ silly linear-gradient(78deg, rgb(251, 66, 66) 0.43%, #ffd400 10.92%, rgb(1, 255,
   opacity: 0.95;
 }
 
+figure{
+  margin: 0px;
+}
+
 .people {
   font-size: 0.2em;
   margin-bottom: 0px;
