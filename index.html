@@ -351,7 +351,7 @@
       </div>
     </section>
 
-    
+
     <section style="--i: 3; --n:3;">
       <div class="container"></div>
     </section>
@@ -704,8 +704,6 @@
                   <figcaption>All As One</figcaption>
                 </figure>
               </div>
-
-
             </div>
           </div>
         </div>
@@ -2043,9 +2041,6 @@
                 <p>YouTube Channel: Jimmy Fallon: Beyond The Stage (2.78k subs)</p>
               </div>
             </div>
-
-
-
           </div>
         </div>
         <div class="scroll-smooth-effects__circle" data-scale="5.584968421052632"
@@ -2120,8 +2115,6 @@
           </div>
         </div>
       </div>
-
-
     </section>
 
     <section style="--i: 3; --n: 3; " class="chart-toppers">
@@ -2136,10 +2129,6 @@
                     class="views">5,996,180 views</span></p>
               </div>
             </div>
-
-
-
-
 
             <div class="chart-details">
               <img style="margin-bottom: 15px; margin-top: 15px; margin-right: 30px; align-self: center;"
@@ -2233,7 +2222,6 @@
           if (_trigger) {
             _trigger(_container);
           }
-
         });
       });
     }
@@ -2242,13 +2230,9 @@
     let youtubeImages = [];
     let gridTimer;
 
-
     let res = document.getElementById('grid');
     let authorGrid = document.createElement('div');
     authorGrid.classList.add("iGrid")
-
-    //let contentWidth = document.body.scrollWidth;
-    //console.log(contentWidth);
 
     let scrollAdjust = 15;
     let targetSize = 65;
@@ -2281,16 +2265,11 @@
 
         let container = document.createElement('div');
         container.classList.add("iGridItem");
-
-        //let img = document.createElement('img');
         const url = bs[i]['big']
         const img = new Image();
-        // img.onload = () => resolve({ url, status: 'loaded' });
-        // img.onerror = () => reject(new Error(`Failed to load ${url}`));
         img.src = url;
         img.alt = bs[i]['text']
         //1001 x 1500
-
 
         let newWidth = (window.innerWidth - scrollAdjust) / authorColumnCount;
         let newHeight = (newWidth / 1001) * 1500;
@@ -2418,7 +2397,6 @@
       let columnCount = Math.floor(window.innerWidth / 392);
       youTubeGrid.style = "grid-template-columns: repeat(" + columnCount + ", 1fr); width: " + (window.innerWidth - 15) + "px;";
 
-
       let scrollAdjust = 15;
       let targetSize = 65;
       if (window.innerWidth > 900) {
@@ -2432,11 +2410,7 @@
 
     addEventListener("resize", (event) => {
       resizeGrids();
-      //    loadFileList("/js/rowan_hale/books.json", bookImages, populateBooks);
-      //    loadFileList("js/rowan_hale/youtube.json", youtubeImages, populateVideos);
     })
-
-
 
     ScrollTrigger.create({
       trigger: '#section_author',
@@ -2448,9 +2422,7 @@
       onLeaveBack: (self) => { stopGrid(); },
     });
 
-
     //ScrollTrigger.markers = true;
-
 
     let streams = document.querySelectorAll(".slop_stream");
     let peps = document.querySelectorAll(".people");
@@ -2497,7 +2469,6 @@
           pright.setAttributeNS(null, 'cx', 1668 - self.progress.toFixed(3) * 10);
           iright.setAttributeNS(null, 'cx', 1668 - self.progress.toFixed(3) * 10);
           iright.setAttributeNS(null, 'cy', 1214 + self.progress.toFixed(3) * 50);
-          //console.log(ileft);
 
           if (self.progress > 0.9) {
             stream.style.height = "200vh";
@@ -2519,13 +2490,11 @@
     tl.to("#spiny", { duration: 1.0, y: 190, repeat: -1, scaleY: 0.9, scaleX: 1.1, yoyo: 1, transformOrigin: "center", ease: "circular:out", cy: 40.5 }).
       from("#spiny", { duration: 1.0, strokeWidth: 5, repeat: -1, stroke: "#ffffcc", yoyo: 1, ease: "circular" });
 
-
     gsap.timeline().to("#iris_left", { x: 2, y: 2, duration: 0.1, yoyo: 1, repeat: -1, ease: "bounce" });
     gsap.timeline().to("#pupil_left", { x: 2, y: 2, duration: 0.1, yoyo: 1, repeat: -1, ease: "bounce" });
 
     gsap.timeline().to("#iris_right", { x: 2, y: 2, duration: 0.2, yoyo: 1, repeat: -1, ease: "bounce" });
     gsap.timeline().to("#pupil_right", { x: 2, y: 2, duration: 0.2, yoyo: 1, repeat: -1, ease: "bounce" });
-
 
     gsap.timeline().from('.slop-rainbow', {
       scrollTrigger: {
@@ -2592,7 +2561,5 @@
     }, "0.5")
 
   </script>
-
 </body>
-
 </html>
