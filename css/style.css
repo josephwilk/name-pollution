@@ -1121,6 +1121,10 @@ h1.splash-title-full {
     display: none;
   }
 
+  .transition{
+    height: 365vw;
+  }
+
   #slop-o {
     display: none;
   }
